@@ -15,7 +15,7 @@
 
         header {
             background: #4a6fa5;
-            color: #f5f0e8;
+            color: #fafafa;
             padding: 20px;
             text-align: center;
             position: sticky;
@@ -28,7 +28,7 @@
             font-size: 28px;
             letter-spacing: 3px;
             text-transform: uppercase;
-            color: #f5f0e8;
+            color: #fafafa;
         }
 
         nav {
@@ -40,7 +40,7 @@
         }
 
         nav a {
-            color: #f5f0e8;
+            color: #fafafa;
             text-decoration: none;
             font-size: 13px;
             letter-spacing: 2px;
@@ -49,260 +49,119 @@
 
         nav a:hover { color: #d4c5a9; }
 
-        #cart-icon {
-            cursor: pointer;
+        /* Hero Section */
+        .hero {
+            background: #4a6fa5;
+            color: #fafafa;
+            text-align: center;
+            padding: 80px 20px;
+        }
+
+        .hero h2 {
+            font-size: 42px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            color: #fafafa;
+            border: none;
+        }
+
+        .hero p {
+            font-size: 18px;
+            line-height: 1.8;
+            color: #d4e4f7;
+            max-width: 600px;
+            margin: 0 auto 30px;
+        }
+
+        .hero a {
+            display: inline-block;
+            background: #fafafa;
+            color: #4a6fa5;
+            padding: 14px 36px;
             font-size: 13px;
             letter-spacing: 2px;
             text-transform: uppercase;
-            color: #f5f0e8;
-            background: none;
-            border: 1px solid #f5f0e8;
-            padding: 6px 12px;
+            text-decoration: none;
             border-radius: 4px;
+            font-weight: bold;
         }
 
-        #cart-icon:hover { background: #3d5d8a; }
-
-        main {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 30px 20px;
+        .hero a:hover {
+            background: #d4c5a9;
         }
 
-        section { margin-bottom: 50px; }
-
-        h2 {
-            font-size: 22px;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            border-bottom: 2px solid #4a6fa5;
-            padding-bottom: 10px;
-            margin-bottom: 24px;
-            color: #4a6fa5;
-        }
-
-        #products-grid {
+        /* Features */
+        .features {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-            gap: 24px;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 30px;
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 0 20px;
         }
 
-        .product-card {
+        .feature {
+            text-align: center;
+            padding: 30px 20px;
             background: #ffffff;
             border: 1px solid #d4c5a9;
             border-radius: 4px;
             box-shadow: 0 2px 8px rgba(74,111,165,0.1);
-            overflow: hidden;
-            transition: box-shadow 0.2s;
         }
 
-        .product-card:hover { box-shadow: 0 4px 16px rgba(74,111,165,0.25); }
-
-        .product-card img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
+        .feature-icon {
+            font-size: 36px;
+            margin-bottom: 16px;
         }
 
-        .product-info { padding: 16px; }
-        .product-info h3 { font-size: 16px; margin-bottom: 8px; color: #2c3e50; }
+        .feature h3 {
+            font-size: 16px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: #4a6fa5;
+            margin-bottom: 10px;
+        }
 
-        .product-info p {
+        .feature p {
             font-size: 14px;
             color: #6b7c8d;
-            margin-bottom: 8px;
+            line-height: 1.7;
         }
 
-        .product-price {
-            font-size: 18px;
-            font-weight: bold;
-            color: #4a6fa5 !important;
+        /* About Snippet */
+        .about-snippet {
+            background: #ffffff;
+            border-top: 2px solid #4a6fa5;
+            border-bottom: 2px solid #4a6fa5;
+            padding: 50px 20px;
+            text-align: center;
+            margin: 0;
         }
 
-        .add-to-cart {
-            width: 100%;
-            background: #4a6fa5;
-            color: #f5f0e8;
-            border: none;
-            padding: 10px;
-            font-size: 12px;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            cursor: pointer;
-            margin-top: 10px;
-            border-radius: 4px;
-        }
-
-        .add-to-cart:hover { background: #3d5d8a; }
-
-        /* About Section */
-        #about p {
-            font-size: 16px;
-            line-height: 1.9;
-            color: #4a5568;
-            margin-bottom: 16px;
-        }
-
-        .about-quote {
-            border-left: 3px solid #4a6fa5;
-            padding-left: 20px;
-            margin: 24px 0;
+        .about-snippet blockquote {
             font-style: italic;
-            font-size: 18px;
+            font-size: 22px;
             color: #4a6fa5;
+            max-width: 600px;
+            margin: 0 auto 20px;
             line-height: 1.8;
         }
 
-        .about-location {
-            display: inline-block;
-            margin-top: 16px;
-            font-size: 13px;
-            letter-spacing: 2px;
-            text-transform: uppercase;
+        .about-snippet p {
+            font-size: 15px;
+            color: #6b7c8d;
+            margin-bottom: 20px;
+        }
+
+        .about-snippet a {
             color: #4a6fa5;
-        }
-
-        /* Cart Drawer */
-        #cart-drawer {
-            position: fixed;
-            top: 0;
-            right: -100%;
-            width: 320px;
-            height: 100%;
-            background: #fffdf7;
-            box-shadow: -4px 0 20px rgba(0,0,0,0.2);
-            z-index: 200;
-            transition: right 0.3s;
-            display: flex;
-            flex-direction: column;
-        }
-
-        #cart-drawer.open { right: 0; }
-
-        #cart-header {
-            background: #4a6fa5;
-            color: #f5f0e8;
-            padding: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        #cart-header h3 {
-            letter-spacing: 2px;
-            text-transform: uppercase;
-        }
-
-        #close-cart {
-            background: none;
-            border: none;
-            color: #f5f0e8;
-            font-size: 24px;
-            cursor: pointer;
-        }
-
-        #cart-items {
-            flex: 1;
-            overflow-y: auto;
-            padding: 20px;
-        }
-
-        .cart-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 0;
-            border-bottom: 1px solid #d4c5a9;
-        }
-
-        .cart-item-name { font-size: 14px; color: #2c3e50; }
-        .cart-item-price { font-size: 14px; font-weight: bold; color: #4a6fa5; }
-
-        .remove-item {
-            background: none;
-            border: none;
-            color: #999999;
-            cursor: pointer;
-            font-size: 18px;
-            margin-left: 10px;
-        }
-
-        #cart-footer {
-            padding: 20px;
-            border-top: 1px solid #d4c5a9;
-            background: #fafafa;
-        }
-
-        #cart-total {
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 16px;
-            text-align: right;
-            color: #4a6fa5;
-        }
-
-        #checkout-btn {
-            width: 100%;
-            background: #4a6fa5;
-            color: #f5f0e8;
-            border: none;
-            padding: 14px;
+            text-decoration: none;
             font-size: 13px;
             letter-spacing: 2px;
             text-transform: uppercase;
-            cursor: pointer;
-            border-radius: 4px;
-        }
-
-        #checkout-btn:hover { background: #3d5d8a; }
-
-        #overlay {
-            display: none;
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(0,0,0,0.5);
-            z-index: 150;
-        }
-
-        #overlay.open { display: block; }
-
-        .contact-form input,
-        .contact-form textarea {
-            width: 100%;
-            padding: 12px;
-            margin-bottom: 12px;
-            border: 1px solid #d4c5a9;
-            border-radius: 4px;
-            font-size: 14px;
-            font-family: Georgia, serif;
-            background: #fffdf7;
-            color: #2c3e50;
-        }
-
-        .contact-form textarea {
-            height: 120px;
-            resize: vertical;
-        }
-
-        .contact-form button {
-            background: #4a6fa5;
-            color: #f5f0e8;
-            border: none;
-            padding: 14px 32px;
-            font-size: 13px;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            cursor: pointer;
-            border-radius: 4px;
-        }
-
-        .contact-form button:hover { background: #3d5d8a; }
-
-        #home p {
-            font-size: 16px;
-            line-height: 1.8;
-            color: #4a5568;
+            border-bottom: 1px solid #4a6fa5;
+            padding-bottom: 2px;
         }
 
         footer {
@@ -312,6 +171,7 @@
             padding: 20px;
             font-size: 12px;
             letter-spacing: 1px;
+            margin-top: 50px;
         }
     </style>
 </head>
@@ -320,157 +180,46 @@
     <header>
         <h1>Southern Market 202</h1>
         <nav>
-            <a href="#home">Home</a>
-            <a href="#shop">Shop</a>
-            <a href="#about">About</a>
-            <a href="#contact">Contact</a>
-            <button id="cart-icon" onclick="openCart()">Cart (<span id="cart-count">0</span>)</button>
+            <a href="index.html">Home</a>
+            <a href="shop.html">Shop</a>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
         </nav>
     </header>
 
-    <div id="overlay" onclick="closeCart()"></div>
+    <div class="hero">
+        <h2>Welcome Home</h2>
+        <p>Antiques, vintage goods and unique finds from the heart of the American South. Every piece tells a story.</p>
+        <a href="shop.html">Browse the Shop</a>
+    </div>
 
-    <div id="cart-drawer">
-        <div id="cart-header">
-            <h3>Your Cart</h3>
-            <button id="close-cart" onclick="closeCart()">×</button>
+    <div class="features">
+        <div class="feature">
+            <div class="feature-icon">🏺</div>
+            <h3>Antiques</h3>
+            <p>Carefully curated antiques with history, character and Southern charm.</p>
         </div>
-        <div id="cart-items">
-            <p style="color:#999;text-align:center;margin-top:20px;">Your cart is empty</p>
+        <div class="feature">
+            <div class="feature-icon">✨</div>
+            <h3>Vintage Finds</h3>
+            <p>One of a kind vintage pieces that bring warmth and personality to any home.</p>
         </div>
-        <div id="cart-footer">
-            <div id="cart-total">Total: $0.00</div>
-            <button id="checkout-btn" onclick="checkout()">Checkout</button>
+        <div class="feature">
+            <div class="feature-icon">🏡</div>
+            <h3>Home Décor</h3>
+            <p>Beautiful décor that makes a house feel like a comfortable Southern home.</p>
         </div>
     </div>
 
-    <main>
-        <section id="home">
-            <h2>Welcome</h2>
-            <p>Antiques, vintage goods and unique finds from the American South.</p>
-        </section>
-
-        <section id="shop">
-            <h2>Shop</h2>
-            <div id="products-grid">
-                <p>Loading products...</p>
-            </div>
-        </section>
-
-        <section id="about">
-            <h2>About Us</h2>
-            <div class="about-quote">
-                "Making a house a home — the comfortable Southern way."
-            </div>
-            <p>Southern Market 202 was born in Williamston, SC — a small town with deep roots and a love for things that last. What started as years of collecting beautiful décor and one-of-a-kind pieces grew into something worth sharing.</p>
-            <p>Every item we carry has been chosen with care — antiques, collectibles and vintage goods that bring warmth, character and history into your home. We believe the right piece doesn't just fill a space, it tells a story.</p>
-            <p>We're proud to be rooted in Upstate South Carolina, where Southern charm isn't just a saying — it's a way of life.</p>
-            <span class="about-location">📍 Williamston, South Carolina</span>
-        </section>
-
-        <section id="contact">
-            <h2>Contact Us</h2>
-            <div class="contact-form">
-                <input type="text" id="contact-name" placeholder="Your Name">
-                <input type="email" id="contact-email" placeholder="Your Email">
-                <textarea id="contact-message" placeholder="Your Message"></textarea>
-                <button onclick="submitContact()">Send Message</button>
-            </div>
-        </section>
-    </main>
+    <div class="about-snippet">
+        <blockquote>"Making a house a home — the comfortable Southern way."</blockquote>
+        <p>Rooted in Williamston, South Carolina</p>
+        <a href="about.html">Our Story →</a>
+    </div>
 
     <footer>
         <p>Southern Market 202 &copy; 2025 &nbsp;|&nbsp; Williamston, South Carolina</p>
     </footer>
-
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script>
-        const SUPABASE_URL = 'https://cljkimiocyodlyrlxkjl.supabase.co';
-        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNsamtpbWlvY3lvZGx5cmx4a2psIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkzODI4NTUsImV4cCI6MjA5NDk1ODg1NX0.oQ6v5iKSzUGY9cNwv1lUfAFJeqiJAwRQnu6R0bsx2Uw';
-        const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
-        let cart = [];
-
-        function openCart() {
-            document.getElementById('cart-drawer').classList.add('open');
-            document.getElementById('overlay').classList.add('open');
-        }
-
-        function closeCart() {
-            document.getElementById('cart-drawer').classList.remove('open');
-            document.getElementById('overlay').classList.remove('open');
-        }
-
-        function addToCart(id, name, price) {
-            const existing = cart.find(i => i.id === id);
-            if (existing) {
-                existing.qty += 1;
-            } else {
-                cart.push({ id, name, price, qty: 1 });
-            }
-            updateCart();
-            openCart();
-        }
-
-        function removeFromCart(id) {
-            cart = cart.filter(i => i.id !== id);
-            updateCart();
-        }
-
-        function updateCart() {
-            const count = cart.reduce((sum, i) => sum + i.qty, 0);
-            const total = cart.reduce((sum, i) => sum + i.price * i.qty, 0);
-            document.getElementById('cart-count').textContent = count;
-            document.getElementById('cart-total').textContent = `Total: $${total.toFixed(2)}`;
-            const cartItems = document.getElementById('cart-items');
-            if (!cart.length) {
-                cartItems.innerHTML = '<p style="color:#999;text-align:center;margin-top:20px;">Your cart is empty</p>';
-                return;
-            }
-            cartItems.innerHTML = cart.map(i => `
-                <div class="cart-item">
-                    <div>
-                        <div class="cart-item-name">${i.name} x${i.qty}</div>
-                        <div class="cart-item-price">$${(i.price * i.qty).toFixed(2)}</div>
-                    </div>
-                    <button class="remove-item" onclick="removeFromCart(${i.id})">×</button>
-                </div>
-            `).join('');
-        }
-
-        function checkout() {
-            if (!cart.length) { alert('Your cart is empty!'); return; }
-            alert('Checkout coming soon! Please contact us to complete your purchase.');
-        }
-
-        async function loadProducts() {
-            const { data, error } = await client.from('products').select('*').eq('available', true);
-            const grid = document.getElementById('products-grid');
-            if (error) { grid.innerHTML = '<p>Error loading products.</p>'; return; }
-            if (!data.length) { grid.innerHTML = '<p>No products yet.</p>'; return; }
-            grid.innerHTML = data.map(p => `
-                <div class="product-card">
-                    ${p.image_url ? `<img src="${p.image_url}" alt="${p.name}">` : ''}
-                    <div class="product-info">
-                        <h3>${p.name}</h3>
-                        <p>${p.description}</p>
-                        <p class="product-price">$${p.price}</p>
-                        <button class="add-to-cart" onclick="addToCart(${p.id}, '${p.name}', ${p.price})">Add to Cart</button>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        async function submitContact() {
-            const name = document.getElementById('contact-name').value;
-            const email = document.getElementById('contact-email').value;
-            const message = document.getElementById('contact-message').value;
-            const { error } = await client.from('contacts').insert([{ name, email, message }]);
-            alert(error ? 'Error sending message.' : 'Message sent!');
-        }
-
-        loadProducts();
-    </script>
 
 </body>
 </html>
