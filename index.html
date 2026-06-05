@@ -78,8 +78,8 @@
         }
 
         nav a {
-            font-size: 11px;
-            font-weight: 700;
+            font-size: 13px;
+            font-weight: 800;
             letter-spacing: 2.5px;
             text-transform: uppercase;
             color: var(--navy);
@@ -163,9 +163,12 @@
         .hero {
             position: relative;
             background: url('images/hero-bg.jpg') center center / cover no-repeat;
-            padding: 96px 80px 100px;
+            padding: 160px 80px 172px;
             display: flex;
             align-items: center;
+            justify-content: center;
+            text-align: center;
+            min-height: 92vh;
         }
 
         .hero::before {
@@ -180,37 +183,47 @@
         .hero-content {
             position: relative;
             z-index: 1;
-            max-width: 700px;
+            max-width: 820px;
         }
 
         .hero-label {
             display: inline-flex;
             align-items: center;
+            justify-content: center;
             gap: 14px;
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 700;
-            letter-spacing: 3px;
+            letter-spacing: 4px;
             text-transform: uppercase;
             color: var(--dim);
-            margin-bottom: 30px;
+            margin-bottom: 36px;
         }
 
         .hero-label::before {
             content: '';
             display: block;
             width: 36px;
-            height: 2px;
+            height: 1px;
+            background: rgba(255,255,255,0.35);
+            flex-shrink: 0;
+        }
+
+        .hero-label::after {
+            content: '';
+            display: block;
+            width: 36px;
+            height: 1px;
             background: rgba(255,255,255,0.35);
             flex-shrink: 0;
         }
 
         .hero h1 {
-            font-size: 78px;
+            font-size: 96px;
             font-weight: 800;
-            line-height: 0.96;
+            line-height: 0.95;
             color: var(--white);
-            margin-bottom: 28px;
-            letter-spacing: -2.5px;
+            margin-bottom: 36px;
+            letter-spacing: -3.5px;
         }
 
         .hero h1 em {
@@ -220,126 +233,133 @@
         }
 
         .hero p {
-            font-size: 17px;
+            font-size: 18px;
             font-weight: 400;
             color: var(--dim);
-            line-height: 1.7;
-            margin-bottom: 40px;
-            max-width: 460px;
+            line-height: 1.75;
+            margin-bottom: 52px;
+            max-width: 480px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .btn-primary {
             display: inline-block;
-            background: transparent;
-            color: var(--white);
+            background: var(--white);
+            color: var(--navy);
             border: 2px solid var(--white);
-            padding: 14px 36px;
-            font-size: 12px;
+            padding: 18px 48px;
+            font-size: 11px;
             font-weight: 700;
-            letter-spacing: 2.5px;
+            letter-spacing: 3px;
             text-transform: uppercase;
             text-decoration: none;
             transition: background 0.2s, color 0.2s;
         }
 
-        .btn-primary:hover { background: var(--white); color: var(--navy); }
+        .btn-primary:hover { background: transparent; color: var(--white); }
 
 /* ── FEATURES (white) ── */
         .features-section {
-            padding: 100px 0;
+            padding: 140px 0;
             background: var(--white);
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 48px;
+            padding: 0 64px;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 80px;
         }
 
         .section-label {
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 700;
-            letter-spacing: 3px;
+            letter-spacing: 4px;
             text-transform: uppercase;
             color: var(--blue);
-            margin-bottom: 14px;
+            margin-bottom: 20px;
         }
 
         .section-title {
-            font-size: 46px;
+            font-size: 52px;
             font-weight: 800;
             color: #1a1a1a;
             line-height: 1.0;
-            letter-spacing: -1.5px;
-            margin-bottom: 52px;
+            letter-spacing: -2px;
+            margin-bottom: 0;
         }
 
         .features-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1px;
-            background: var(--lborder);
-            border: 1px solid var(--lborder);
+            display: flex;
+            flex-direction: column;
+            gap: 0;
         }
 
         .feature {
-            background: var(--white);
-            padding: 48px 40px;
-            border-top: 3px solid var(--blue);
+            background: transparent;
+            padding: 72px 0;
+            border: none;
+            border-bottom: 1px solid var(--lborder);
+            display: flex;
+            align-items: center;
+            gap: 56px;
         }
 
-        .feature-num {
-            font-size: 52px;
-            font-weight: 800;
-            color: var(--blue);
-            line-height: 1;
-            margin-bottom: 20px;
-            letter-spacing: -2px;
-        }
-
-        .feature h3 {
-            font-size: 22px;
-            font-weight: 700;
-            color: #1a1a1a;
-            margin-bottom: 12px;
-            letter-spacing: -0.3px;
-        }
-
-        .feature p {
-            font-size: 14px;
-            font-weight: 400;
-            color: #5a5a5a;
-            line-height: 1.75;
-        }
+        .feature:first-child { border-top: 1px solid var(--lborder); }
 
         .feature-icon {
             display: block;
-            margin: 0 0 24px;
+            flex-shrink: 0;
+            margin: 0;
+            opacity: 0.85;
+        }
+
+        .feature-text { flex: 1; }
+
+        .feature h3 {
+            font-size: 38px;
+            font-weight: 800;
+            color: #1a1a1a;
+            margin-bottom: 16px;
+            letter-spacing: -1px;
+        }
+
+        .feature p {
+            font-size: 17px;
+            font-weight: 400;
+            color: #5a5a5a;
+            line-height: 1.9;
+            max-width: 600px;
         }
 
         /* ── ABOUT STRIP (black) ── */
         .about-strip {
-            background: var(--black);
-            border-top: 1px solid var(--dborder);
-            border-bottom: 1px solid var(--dborder);
-            padding: 80px 0;
+            background: #D00000;
+            border-top: none;
+            border-bottom: none;
+            padding: 130px 0;
         }
 
         .about-inner {
-            max-width: 780px;
+            max-width: 860px;
             margin: 0 auto;
             text-align: center;
-            padding: 0 48px;
+            padding: 0 64px;
         }
 
         .about-inner blockquote {
-            font-size: 32px;
+            font-size: 42px;
             font-weight: 700;
             font-style: italic;
             color: var(--white);
-            line-height: 1.35;
-            margin-bottom: 24px;
-            letter-spacing: -0.5px;
+            line-height: 1.3;
+            margin-bottom: 32px;
+            letter-spacing: -1px;
         }
 
         .about-inner > p {
@@ -424,17 +444,19 @@
             .header-social { display: none; }
             .hamburger { display: flex; }
 
-            .hero { padding: 56px 24px 60px; }
-            .hero h1 { font-size: 46px; letter-spacing: -1.5px; }
-            .hero p { font-size: 15px; }
+            .hero { padding: 80px 24px 88px; min-height: 70vh; }
+            .hero h1 { font-size: 52px; letter-spacing: -2px; }
+            .hero p { font-size: 16px; }
             .hero-label { margin-bottom: 24px; }
 
-.features-section { padding: 64px 0; }
+            .features-section { padding: 80px 0; }
             .container { padding: 0 24px; }
-            .features-grid { grid-template-columns: 1fr; }
-            .section-title { font-size: 34px; letter-spacing: -1px; }
+            .features-grid { grid-template-columns: 1fr; gap: 20px; }
+            .section-title { font-size: 38px; letter-spacing: -1px; }
+            .section-header { margin-bottom: 48px; }
             .about-inner { padding: 0 24px; }
-            .about-inner blockquote { font-size: 24px; }
+            .about-inner blockquote { font-size: 28px; }
+            .about-strip { padding: 80px 0; }
             footer { flex-direction: column; gap: 24px; text-align: center; padding: 40px 24px; }
             .footer-logo-block { align-items: center; }
         }
@@ -494,12 +516,14 @@
 
 <section class="features-section">
     <div class="container">
-        <p class="section-label">What We Offer</p>
-        <h2 class="section-title">Curated With Care</h2>
+        <div class="section-header">
+            <p class="section-label">What We Offer</p>
+            <h2 class="section-title">Curated With Care</h2>
+        </div>
         <div class="features-grid">
             <div class="feature">
                 <!-- Pocket watch icon -->
-                <svg class="feature-icon" width="72" height="72" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#a8c0d6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <svg class="feature-icon" width="88" height="88" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#a8c0d6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                     <circle cx="24" cy="28" r="14"/>
                     <line x1="24" y1="14" x2="24" y2="10"/>
                     <path d="M20 8 Q24 6 28 8"/>
@@ -511,31 +535,37 @@
                     <line x1="15" y1="28" x2="17" y2="28"/>
                     <line x1="31" y1="28" x2="33" y2="28"/>
                 </svg>
+                <div class="feature-text">
                 <h3>Antiques</h3>
                 <p>Carefully selected antiques with history, character and Southern charm — each piece with a story to tell.</p>
+                </div>
             </div>
             <div class="feature">
                 <!-- Skeleton key icon -->
-                <svg class="feature-icon" width="72" height="72" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#a8c0d6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <svg class="feature-icon" width="88" height="88" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#a8c0d6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                     <circle cx="16" cy="18" r="8"/>
                     <circle cx="16" cy="18" r="3.5"/>
                     <line x1="22" y1="23" x2="42" y2="38"/>
                     <line x1="34" y1="31" x2="34" y2="36"/>
                     <line x1="38.5" y1="34" x2="38.5" y2="39"/>
                 </svg>
+                <div class="feature-text">
                 <h3>Vintage Finds</h3>
                 <p>One of a kind vintage pieces that bring warmth, personality and a sense of the good old days to any home.</p>
+                </div>
             </div>
             <div class="feature">
                 <!-- Table lamp icon -->
-                <svg class="feature-icon" width="72" height="72" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#a8c0d6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <svg class="feature-icon" width="88" height="88" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#a8c0d6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M15 26 L24 6 L33 26 Z"/>
                     <line x1="24" y1="26" x2="24" y2="40"/>
                     <line x1="18" y1="40" x2="30" y2="40"/>
                     <line x1="19" y1="21" x2="29" y2="21"/>
                 </svg>
+                <div class="feature-text">
                 <h3>Home Décor</h3>
                 <p>Beautiful décor chosen to make a house feel like a comfortable, lived-in Southern home full of life.</p>
+                </div>
             </div>
         </div>
     </div>
