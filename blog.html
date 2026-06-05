@@ -1,9 +1,9 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shop — Southern Market 202</title>
+    <title>Journal — Southern Market 202</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -101,26 +101,6 @@
         .header-social a:hover { opacity: 0.65; }
         .header-social svg { width: 18px; height: 18px; fill: currentColor; }
 
-        #cart-btn {
-            background: none;
-            border: 1px solid var(--border);
-            padding: 8px 16px;
-            font-size: 11px;
-            font-weight: 700;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            color: var(--navy);
-            cursor: pointer;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            white-space: nowrap;
-            font-family: 'Helvetica Neue', Arial, Helvetica, sans-serif;
-        }
-
-        #cart-btn:hover { background: var(--navy); color: var(--white); border-color: var(--navy); }
-
         /* ── HAMBURGER ── */
         .hamburger {
             display: none;
@@ -183,7 +163,7 @@
         /* ── PAGE HERO ── */
         .page-hero {
             background: var(--navy);
-            padding: 80px 48px;
+            padding: 96px 48px;
             text-align: center;
         }
 
@@ -193,275 +173,148 @@
             letter-spacing: 3px;
             text-transform: uppercase;
             color: var(--dim);
-            margin-bottom: 12px;
+            margin-bottom: 16px;
         }
 
         .page-hero h1 {
-            font-size: 56px;
+            font-size: 64px;
             font-weight: 800;
             color: var(--white);
-            letter-spacing: -1.5px;
+            letter-spacing: -2px;
             line-height: 1;
+            margin-bottom: 20px;
         }
 
-        .page-hero h1 em {
-            font-style: normal;
-            color: rgba(255,255,255,0.65);
+        .page-hero .subheading {
+            font-size: 18px;
+            font-weight: 400;
+            color: rgba(255,255,255,0.6);
+            letter-spacing: 0;
+            text-transform: none;
+            line-height: 1.6;
         }
 
-        /* ── SHOP SECTION ── */
-        .shop-section {
+        /* ── JOURNAL SECTION ── */
+        .journal-section {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 80px 48px;
+            padding: 96px 48px;
         }
 
-        .shop-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-            margin-bottom: 48px;
-            padding-bottom: 24px;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .shop-header-left p {
-            font-size: 12px;
-            font-weight: 700;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            color: var(--blue);
-            margin-bottom: 8px;
-        }
-
-        .shop-header-left h2 {
-            font-size: 32px;
-            font-weight: 800;
-            color: var(--heading);
-            letter-spacing: -0.5px;
-        }
-
-        #products-grid {
+        /* ── POST GRID ── */
+        #posts-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 32px;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 40px;
         }
 
-        /* ── PRODUCT CARDS ── */
-        .product-card {
+        /* ── POST CARD ── */
+        .post-card {
             background: var(--white);
             border: 1px solid var(--border);
-            position: relative;
-            cursor: pointer;
+            display: flex;
+            flex-direction: column;
             transition: transform 0.2s, box-shadow 0.2s;
         }
 
-        .product-card:hover {
+        .post-card:hover {
             transform: translateY(-4px);
             box-shadow: 0 12px 32px rgba(26,39,68,0.1);
         }
 
-        .price-tag-hole { display: none; }
-
-        .product-img {
+        .post-cover {
             width: 100%;
-            height: 260px;
+            height: 220px;
             object-fit: cover;
             display: block;
         }
 
-        .product-img-placeholder {
+        .post-cover-placeholder {
             width: 100%;
-            height: 260px;
-            background: #f5f5f5;
+            height: 220px;
+            background: var(--navy);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 48px;
         }
 
-        .product-info {
-            padding: 24px;
-            border-top: 1px solid var(--border);
+        .post-cover-placeholder svg {
+            opacity: 0.2;
         }
 
-        .product-category {
+        .post-info {
+            padding: 28px 28px 32px;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+
+        .post-category {
             font-size: 11px;
             font-weight: 700;
             letter-spacing: 2.5px;
             text-transform: uppercase;
             color: var(--blue);
-            margin-bottom: 8px;
+            margin-bottom: 12px;
         }
 
-        .product-name {
-            font-size: 20px;
-            font-weight: 700;
+        .post-title {
+            font-size: 22px;
+            font-weight: 800;
             color: var(--heading);
-            margin-bottom: 8px;
-            line-height: 1.2;
             letter-spacing: -0.3px;
+            line-height: 1.25;
+            margin-bottom: 12px;
         }
 
-        .product-desc {
-            font-size: 13px;
-            font-weight: 400;
+        .post-excerpt {
+            font-size: 14px;
             color: var(--body);
-            line-height: 1.65;
-            margin-bottom: 20px;
+            line-height: 1.75;
+            margin-bottom: 24px;
+            flex: 1;
         }
 
-        .product-footer {
+        .post-footer {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            border-top: 1px solid var(--border);
+            padding-top: 20px;
+            margin-top: auto;
         }
 
-        .product-price {
-            font-size: 24px;
-            font-weight: 800;
-            color: var(--heading);
-            letter-spacing: -0.5px;
+        .post-date {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: #b0b0b0;
         }
 
-        .add-to-cart {
-            background: var(--navy);
-            color: var(--white);
-            border: none;
-            padding: 10px 20px;
+        .post-read-more {
             font-size: 11px;
             font-weight: 700;
             letter-spacing: 2px;
             text-transform: uppercase;
-            cursor: pointer;
-            transition: background 0.2s;
-            font-family: 'Helvetica Neue', Arial, Helvetica, sans-serif;
+            color: var(--navy);
+            text-decoration: none;
+            border-bottom: 2px solid var(--blue);
+            padding-bottom: 2px;
+            transition: color 0.2s, border-color 0.2s;
         }
 
-        .add-to-cart:hover { background: var(--black); }
-
-        /* ── CART DRAWER ── */
-        #overlay {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.4);
-            z-index: 300;
+        .post-read-more:hover {
+            color: var(--blue);
+            border-color: var(--navy);
         }
 
-        #overlay.open { display: block; }
-
-        #cart-drawer {
-            position: fixed;
-            top: 0;
-            right: -420px;
-            width: 420px;
-            height: 100%;
-            background: var(--white);
-            z-index: 400;
-            transition: right 0.3s ease;
-            display: flex;
-            flex-direction: column;
-            border-left: 1px solid var(--border);
-        }
-
-        #cart-drawer.open { right: 0; }
-
-        .cart-head {
-            padding: 28px 32px;
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .cart-head h3 {
-            font-size: 18px;
-            font-weight: 800;
-            color: var(--heading);
-            letter-spacing: -0.3px;
-        }
-
-        #close-cart {
-            background: none;
-            border: none;
-            font-size: 24px;
+        .empty-msg {
             color: var(--body);
-            cursor: pointer;
-            line-height: 1;
-        }
-
-        #cart-items {
-            flex: 1;
-            overflow-y: auto;
-            padding: 24px 32px;
-        }
-
-        .cart-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 16px 0;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .cart-item-info { flex: 1; }
-        .cart-item-name { font-size: 14px; font-weight: 600; color: var(--heading); margin-bottom: 4px; }
-        .cart-item-price { font-size: 16px; font-weight: 700; color: var(--navy); }
-
-        .remove-item {
-            background: none;
-            border: none;
-            color: #c0c0c0;
-            cursor: pointer;
-            font-size: 20px;
-            padding: 4px;
-            transition: color 0.2s;
-            line-height: 1;
-        }
-
-        .remove-item:hover { color: var(--heading); }
-
-        .cart-foot {
-            padding: 24px 32px;
-            border-top: 1px solid var(--border);
-        }
-
-        #cart-total {
-            font-size: 22px;
-            font-weight: 800;
-            color: var(--heading);
-            margin-bottom: 20px;
-            text-align: right;
-            letter-spacing: -0.3px;
-        }
-
-        #checkout-btn {
-            width: 100%;
-            background: var(--navy);
-            color: var(--white);
-            border: none;
-            padding: 16px;
-            font-size: 12px;
-            font-weight: 700;
-            letter-spacing: 2.5px;
-            text-transform: uppercase;
-            cursor: pointer;
-            transition: background 0.2s;
-            font-family: 'Helvetica Neue', Arial, Helvetica, sans-serif;
-        }
-
-        #checkout-btn:hover { background: var(--black); }
-        #checkout-btn:disabled { background: #c0c0c0; cursor: not-allowed; }
-
-        .success-banner {
-            background: var(--navy);
-            color: var(--white);
+            font-size: 15px;
+            line-height: 1.75;
             text-align: center;
-            padding: 16px;
-            font-size: 13px;
-            font-weight: 500;
-            letter-spacing: 1px;
+            padding: 80px 0;
         }
 
         /* ── FOOTER ── */
@@ -515,11 +368,10 @@
             nav { display: none; }
             .header-social { display: none; }
             .hamburger { display: flex; }
-            .page-hero { padding: 60px 24px; }
-            .page-hero h1 { font-size: 40px; }
-            .shop-section { padding: 40px 20px; }
-            #products-grid { grid-template-columns: 1fr; }
-            #cart-drawer { width: 100%; right: -100%; }
+            .page-hero { padding: 64px 24px; }
+            .page-hero h1 { font-size: 42px; }
+            .journal-section { padding: 56px 20px; }
+            #posts-grid { grid-template-columns: 1fr; gap: 24px; }
             footer { flex-direction: column; gap: 24px; text-align: center; padding: 40px 24px; }
             .footer-logo-block { align-items: center; }
         }
@@ -536,67 +388,43 @@
     </a>
     <nav>
         <a href="index.html">Home</a>
-        <a href="shop.html" class="active">Shop</a>
+        <a href="shop.html">Shop</a>
         <a href="about.html">About</a>
         <a href="contact.html">Contact</a>
-        <a href="blog.html">Journal</a>
+        <a href="blog.html" class="active">Journal</a>
     </nav>
     <div class="header-right">
         <div class="header-social">
             <a href="#" title="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
             <a href="#" title="Facebook"><svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
         </div>
-        <button id="cart-btn" onclick="openCart()">Cart <span id="cart-count">0</span></button>
         <button class="hamburger" id="hamburger" onclick="toggleMenu()">
-            <span></span>
-            <span></span>
-            <span></span>
+            <span></span><span></span><span></span>
         </button>
     </div>
 </header>
 
 <div class="mobile-menu" id="mobile-menu">
     <a href="index.html">Home</a>
-    <a href="shop.html" class="active">Shop</a>
+    <a href="shop.html">Shop</a>
     <a href="about.html">About</a>
     <a href="contact.html">Contact</a>
-    <a href="blog.html">Journal</a>
+    <a href="blog.html" class="active">Journal</a>
     <div class="mobile-social">
         <a href="#" title="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
         <a href="#" title="Facebook"><svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
     </div>
 </div>
 
-<div id="overlay" onclick="closeCart()"></div>
-
-<div id="cart-drawer">
-    <div class="cart-head">
-        <h3>Your Cart</h3>
-        <button id="close-cart" onclick="closeCart()">×</button>
-    </div>
-    <div id="cart-items">
-        <p style="color:#c0c0c0;text-align:center;margin-top:40px;font-size:13px;letter-spacing:1px;">Your cart is empty</p>
-    </div>
-    <div class="cart-foot">
-        <div id="cart-total">Total: $0.00</div>
-        <button id="checkout-btn" onclick="checkout()">Proceed to Checkout</button>
-    </div>
-</div>
-
 <div class="page-hero">
     <p>Southern Market 202</p>
-    <h1>The <em>Collection</em></h1>
+    <h1>The Journal</h1>
+    <p class="subheading">Stories, restorations, and what's coming next</p>
 </div>
 
-<section class="shop-section">
-    <div class="shop-header">
-        <div class="shop-header-left">
-            <p>Available Now</p>
-            <h2>All Items</h2>
-        </div>
-    </div>
-    <div id="products-grid">
-        <p style="color:#5a5a5a;font-size:14px;">Loading products...</p>
+<section class="journal-section">
+    <div id="posts-grid">
+        <p style="color:#5a5a5a;font-size:14px;">Loading posts...</p>
     </div>
 </section>
 
@@ -620,104 +448,53 @@
     const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNsamtpbWlvY3lvZGx5cmx4a2psIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkzODI4NTUsImV4cCI6MjA5NDk1ODg1NX0.oQ6v5iKSzUGY9cNwv1lUfAFJeqiJAwRQnu6R0bsx2Uw';
     const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-    const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.get('success')) {
-        const banner = document.createElement('div');
-        banner.className = 'success-banner';
-        banner.textContent = '✓ Thank you for your order! We will be in touch soon.';
-        document.body.insertBefore(banner, document.querySelector('.page-hero'));
-    }
-
-    let cart = [];
-
     function toggleMenu() {
-        const menu = document.getElementById('mobile-menu');
-        const hamburger = document.getElementById('hamburger');
-        menu.classList.toggle('open');
-        hamburger.classList.toggle('open');
+        document.getElementById('mobile-menu').classList.toggle('open');
+        document.getElementById('hamburger').classList.toggle('open');
     }
 
-    function openCart() {
-        document.getElementById('cart-drawer').classList.add('open');
-        document.getElementById('overlay').classList.add('open');
+    function formatDate(dateStr) {
+        return new Date(dateStr).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
     }
 
-    function closeCart() {
-        document.getElementById('cart-drawer').classList.remove('open');
-        document.getElementById('overlay').classList.remove('open');
-    }
+    async function loadPosts() {
+        const { data, error } = await client
+            .from('blog_posts')
+            .select('*')
+            .eq('published', true)
+            .order('published_at', { ascending: false });
 
-    function addToCart(id, name, price) {
-        const existing = cart.find(i => i.id === id);
-        if (existing) { existing.qty += 1; }
-        else { cart.push({ id, name, price, qty: 1 }); }
-        updateCart();
-        openCart();
-    }
+        const grid = document.getElementById('posts-grid');
 
-    function removeFromCart(id) {
-        cart = cart.filter(i => i.id !== id);
-        updateCart();
-    }
-
-    function updateCart() {
-        const count = cart.reduce((sum, i) => sum + i.qty, 0);
-        const total = cart.reduce((sum, i) => sum + i.price * i.qty, 0);
-        document.getElementById('cart-count').textContent = count;
-        document.getElementById('cart-total').textContent = `Total: $${total.toFixed(2)}`;
-        const cartItems = document.getElementById('cart-items');
-        if (!cart.length) {
-            cartItems.innerHTML = '<p style="color:#c0c0c0;text-align:center;margin-top:40px;font-size:13px;letter-spacing:1px;">Your cart is empty</p>';
+        if (error) {
+            grid.innerHTML = '<p class="empty-msg">Unable to load posts right now. Please check back soon.</p>';
             return;
         }
-        cartItems.innerHTML = cart.map(i => `
-            <div class="cart-item">
-                <div class="cart-item-info">
-                    <div class="cart-item-name">${i.name} × ${i.qty}</div>
-                    <div class="cart-item-price">$${(i.price * i.qty).toFixed(2)}</div>
-                </div>
-                <button class="remove-item" onclick="removeFromCart(${i.id})">×</button>
-            </div>
-        `).join('');
-    }
 
-    async function checkout() {
-        if (!cart.length) { alert('Your cart is empty!'); return; }
-        const btn = document.getElementById('checkout-btn');
-        btn.textContent = 'Processing...';
-        btn.disabled = true;
-        try {
-            const response = await fetch(`${SUPABASE_URL}/functions/v1/create-checkout`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json', 'apikey': SUPABASE_KEY },
-                body: JSON.stringify({ items: cart }),
-            });
-            const data = await response.json();
-            if (data.url) { window.location.href = data.url; }
-            else { throw new Error(data.error || 'Checkout failed'); }
-        } catch (error) {
-            alert('Checkout error: ' + error.message);
-            btn.textContent = 'Proceed to Checkout';
-            btn.disabled = false;
+        if (!data.length) {
+            grid.innerHTML = '<p class="empty-msg">No posts yet — check back soon. We have a lot of stories to tell.</p>';
+            return;
         }
-    }
 
-    async function loadProducts() {
-        const { data, error } = await client.from('products').select('*').eq('available', true);
-        const grid = document.getElementById('products-grid');
-        if (error) { grid.innerHTML = '<p>Error loading products.</p>'; return; }
-        if (!data.length) { grid.innerHTML = '<p style="color:#5a5a5a;font-size:14px;letter-spacing:1px;">No products yet — check back soon.</p>'; return; }
-        grid.innerHTML = data.map(p => `
-            <div class="product-card">
-                <div class="price-tag-hole"></div>
-                ${p.image_url ? `<img src="${p.image_url}" alt="${p.name}" class="product-img">` : `<div class="product-img-placeholder">🏺</div>`}
-                <div class="product-info">
-                    <p class="product-category">${p.category || 'Vintage'}</p>
-                    <h3 class="product-name">${p.name}</h3>
-                    <p class="product-desc">${p.description}</p>
-                    <div class="product-footer">
-                        <span class="product-price">$${p.price}</span>
-                        <button class="add-to-cart" onclick="addToCart(${p.id}, '${p.name}', ${p.price})">Add to Cart</button>
+        grid.innerHTML = data.map(post => `
+            <div class="post-card">
+                ${post.cover_image_url
+                    ? `<img src="${post.cover_image_url}" alt="${post.title}" class="post-cover">`
+                    : `<div class="post-cover-placeholder">
+                        <svg width="64" height="64" viewBox="0 0 48 48" fill="none" stroke="#ffffff" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="6" y="10" width="36" height="28" rx="1"/>
+                            <circle cx="18" cy="21" r="5"/>
+                            <path d="M6 34 L15 25 L22 32 L30 24 L42 34"/>
+                        </svg>
+                       </div>`
+                }
+                <div class="post-info">
+                    <p class="post-category">${post.category || 'Journal'}</p>
+                    <h2 class="post-title">${post.title}</h2>
+                    <p class="post-excerpt">${post.excerpt || ''}</p>
+                    <div class="post-footer">
+                        <span class="post-date">${formatDate(post.published_at)}</span>
+                        <a href="#" class="post-read-more">Read More</a>
                     </div>
                 </div>
             </div>
@@ -725,12 +502,9 @@
     }
 
     function calibrateLogos() {
-        [
-            ['.logo-top',        '.logo-bottom'],
-            ['.footer-logo-top', '.footer-logo-bottom']
-        ].forEach(([topSel, botSel]) => {
-            document.querySelectorAll(topSel).forEach(top => {
-                const bottom = top.parentElement.querySelector(botSel);
+        [['.logo-top', '.logo-bottom'], ['.footer-logo-top', '.footer-logo-bottom']].forEach(([t, b]) => {
+            document.querySelectorAll(t).forEach(top => {
+                const bottom = top.parentElement.querySelector(b);
                 if (!bottom) return;
                 top.style.letterSpacing = '0px';
                 const gap = (bottom.getBoundingClientRect().width - top.getBoundingClientRect().width) / top.textContent.trim().length;
@@ -742,7 +516,7 @@
     document.addEventListener('DOMContentLoaded', calibrateLogos);
     window.addEventListener('resize', calibrateLogos);
 
-    loadProducts();
+    loadPosts();
 </script>
 
 </body>
