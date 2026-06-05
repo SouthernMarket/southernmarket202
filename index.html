@@ -159,13 +159,20 @@
         .mobile-social a { display: flex; color: var(--blue); }
         .mobile-social svg { width: 20px; height: 20px; fill: currentColor; }
 
-        /* ── HERO (deep navy) ── */
+        /* ── HERO (photo + navy overlay) ── */
         .hero {
             position: relative;
-            background: var(--navy);
+            background: url('images/hero-bg.jpg') center center / cover no-repeat;
             padding: 96px 80px 100px;
             display: flex;
             align-items: center;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(26, 39, 68, 0.62);
         }
 
         .hero-bg { display: none; }
