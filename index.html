@@ -47,24 +47,24 @@
             flex-direction: column;
             align-items: flex-start;
             background: var(--blue);
-            padding: 8px 13px 9px;
-            gap: 2px;
+            padding: 8px 14px 10px;
+            gap: 3px;
         }
 
         .logo-top {
-            font-size: 9px;
-            font-weight: 700;
-            letter-spacing: 3px;
+            font-size: 13px;
+            font-weight: 800;
+            letter-spacing: 4px;
             text-transform: uppercase;
-            color: rgba(255,255,255,0.82);
+            color: #ffffff;
             display: block;
             white-space: nowrap;
         }
 
         .logo-bottom {
-            font-size: 15px;
+            font-size: 13px;
             font-weight: 800;
-            letter-spacing: 1.5px;
+            letter-spacing: 2px;
             text-transform: uppercase;
             color: #ffffff;
             display: block;
@@ -414,19 +414,19 @@
         }
 
         .footer-logo-top {
-            font-size: 9px;
-            font-weight: 700;
-            letter-spacing: 3px;
-            color: rgba(255,255,255,0.72);
+            font-size: 13px;
+            font-weight: 800;
+            letter-spacing: 4px;
+            color: #ffffff;
             text-transform: uppercase;
             display: block;
             white-space: nowrap;
         }
 
         .footer-logo-bottom {
-            font-size: 15px;
+            font-size: 13px;
             font-weight: 800;
-            letter-spacing: 1.5px;
+            letter-spacing: 2px;
             color: #ffffff;
             text-transform: uppercase;
             display: block;
@@ -655,6 +655,24 @@
         menu.classList.toggle('open');
         hamburger.classList.toggle('open');
     }
+
+    function calibrateLogos() {
+        [
+            ['.logo-top',        '.logo-bottom'],
+            ['.footer-logo-top', '.footer-logo-bottom']
+        ].forEach(([topSel, botSel]) => {
+            document.querySelectorAll(topSel).forEach(top => {
+                const bottom = top.parentElement.querySelector(botSel);
+                if (!bottom) return;
+                top.style.letterSpacing = '0px';
+                const gap = (bottom.getBoundingClientRect().width - top.getBoundingClientRect().width) / top.textContent.trim().length;
+                top.style.letterSpacing = Math.max(0, gap) + 'px';
+            });
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', calibrateLogos);
+    window.addEventListener('resize', calibrateLogos);
 </script>
 
 </body>
