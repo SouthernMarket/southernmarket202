@@ -4,30 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Southern Market 202</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;1,9..144,300;1,9..144,400&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         :root {
-            --blue: #4a6fa5;
-            --blue-light: #e8f0fb;
-            --blue-pale: #f4f8ff;
-            --ink: #1c1c1e;
-            --ink-light: #5a6070;
-            --cream: #fdfcfa;
-            --border: #dce6f0;
-            --aged: #c8d4e0;
+            --blue: #5a7fa8;
+            --blue-light: #d6e4f0;
+            --hero-bg: #a8c0d6;
+            --cream: #faf7f2;
+            --card: #fffdf9;
+            --ink: #2a2825;
+            --ink-light: #6b6560;
+            --border: #ddd8d0;
+            --aged: #c8bfb4;
         }
 
         body {
-            font-family: 'DM Sans', sans-serif;
-            background: var(--blue-pale);
+            font-family: 'Outfit', sans-serif;
+            background: var(--cream);
             color: var(--ink);
         }
 
         /* HEADER */
         header {
-            background: #ffffff;
+            background: var(--card);
             border-bottom: 1px solid var(--border);
             padding: 0 48px;
             height: 72px;
@@ -40,10 +41,10 @@
         }
 
         .logo {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 20px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 18px;
             font-weight: 600;
-            letter-spacing: 1px;
+            letter-spacing: 0.5px;
             color: var(--ink);
             text-decoration: none;
             text-transform: uppercase;
@@ -58,7 +59,7 @@
         }
 
         nav a {
-            font-size: 11px;
+            font-size: 12px;
             font-weight: 500;
             letter-spacing: 2px;
             text-transform: uppercase;
@@ -110,12 +111,12 @@
             top: 72px;
             left: 0;
             right: 0;
-            background: #ffffff;
+            background: var(--card);
             border-bottom: 1px solid var(--border);
             z-index: 199;
             padding: 24px 32px;
             flex-direction: column;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+            box-shadow: 0 8px 24px rgba(42,40,37,0.1);
         }
 
         .mobile-menu.open { display: flex; }
@@ -147,9 +148,9 @@
         /* HERO */
         .hero {
             position: relative;
-            height: 90vh;
-            min-height: 580px;
-            background: var(--ink);
+            height: 88vh;
+            min-height: 560px;
+            background: var(--hero-bg);
             overflow: hidden;
             display: flex;
             align-items: flex-end;
@@ -159,56 +160,56 @@
             position: absolute;
             inset: 0;
             background: url('https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=1800&q=85') center/cover no-repeat;
-            opacity: 0.45;
-            transform: scale(1.02);
+            opacity: 0.18;
+            mix-blend-mode: multiply;
         }
 
         .hero-content {
             position: relative;
             z-index: 1;
             padding: 0 80px 80px;
-            max-width: 700px;
+            max-width: 680px;
         }
 
         .hero-label {
             display: inline-block;
-            font-size: 10px;
+            font-size: 12px;
             font-weight: 500;
-            letter-spacing: 4px;
+            letter-spacing: 3px;
             text-transform: uppercase;
-            color: #a8c4e0;
+            color: var(--blue);
             margin-bottom: 20px;
             border-left: 2px solid var(--blue);
             padding-left: 12px;
         }
 
         .hero h1 {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 72px;
+            font-family: 'Fraunces', serif;
+            font-size: 68px;
             font-weight: 300;
             line-height: 1.05;
-            color: #ffffff;
-            margin-bottom: 24px;
-            letter-spacing: -1px;
+            color: var(--ink);
+            margin-bottom: 22px;
+            letter-spacing: -0.5px;
         }
 
-        .hero h1 em { font-style: italic; color: #a8c4e0; }
+        .hero h1 em { font-style: italic; color: var(--blue); }
 
         .hero p {
             font-size: 16px;
             font-weight: 300;
-            color: #b8cce0;
-            line-height: 1.8;
+            color: var(--ink-light);
+            line-height: 1.75;
             margin-bottom: 36px;
-            max-width: 440px;
+            max-width: 420px;
         }
 
         .btn-primary {
             display: inline-block;
-            background: #ffffff;
-            color: var(--ink);
+            background: var(--blue);
+            color: #ffffff;
             padding: 14px 36px;
-            font-size: 11px;
+            font-size: 12px;
             font-weight: 500;
             letter-spacing: 2px;
             text-transform: uppercase;
@@ -216,7 +217,7 @@
             transition: background 0.2s, color 0.2s;
         }
 
-        .btn-primary:hover { background: var(--blue); color: #ffffff; }
+        .btn-primary:hover { background: var(--ink); color: #ffffff; }
 
         /* MARQUEE */
         .marquee-strip {
@@ -232,9 +233,9 @@
         }
 
         .marquee-inner span {
-            font-size: 10px;
+            font-size: 12px;
             font-weight: 500;
-            letter-spacing: 4px;
+            letter-spacing: 3px;
             text-transform: uppercase;
             color: #ffffff;
             padding: 0 40px;
@@ -255,6 +256,7 @@
         /* FEATURES */
         .features-section {
             padding: 100px 0;
+            background: var(--cream);
         }
 
         .container {
@@ -264,16 +266,16 @@
         }
 
         .section-label {
-            font-size: 10px;
+            font-size: 12px;
             font-weight: 500;
-            letter-spacing: 4px;
+            letter-spacing: 3px;
             text-transform: uppercase;
             color: var(--blue);
             margin-bottom: 12px;
         }
 
         .section-title {
-            font-family: 'Cormorant Garamond', serif;
+            font-family: 'Fraunces', serif;
             font-size: 44px;
             font-weight: 300;
             color: var(--ink);
@@ -290,7 +292,7 @@
         }
 
         .feature {
-            background: #ffffff;
+            background: var(--card);
             padding: 48px 40px;
             position: relative;
         }
@@ -304,7 +306,7 @@
         }
 
         .feature-num {
-            font-family: 'Cormorant Garamond', serif;
+            font-family: 'Fraunces', serif;
             font-size: 48px;
             font-weight: 300;
             color: var(--blue-light);
@@ -313,7 +315,7 @@
         }
 
         .feature h3 {
-            font-family: 'Cormorant Garamond', serif;
+            font-family: 'Fraunces', serif;
             font-size: 24px;
             font-weight: 400;
             color: var(--ink);
@@ -329,7 +331,7 @@
 
         /* ABOUT STRIP */
         .about-strip {
-            background: var(--cream);
+            background: var(--card);
             border-top: 1px solid var(--aged);
             border-bottom: 1px solid var(--aged);
             padding: 80px 0;
@@ -358,7 +360,7 @@
         }
 
         .about-inner blockquote {
-            font-family: 'Cormorant Garamond', serif;
+            font-family: 'Fraunces', serif;
             font-size: 32px;
             font-weight: 300;
             font-style: italic;
@@ -381,7 +383,7 @@
             border: 1px solid var(--ink);
             color: var(--ink);
             padding: 12px 32px;
-            font-size: 11px;
+            font-size: 12px;
             font-weight: 500;
             letter-spacing: 2px;
             text-transform: uppercase;
@@ -401,20 +403,20 @@
         }
 
         .footer-logo {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 18px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 17px;
             font-weight: 600;
-            letter-spacing: 1px;
+            letter-spacing: 0.5px;
             text-transform: uppercase;
             color: #ffffff;
             text-decoration: none;
         }
 
-        .footer-logo em { font-style: normal; color: #6a9fd8; }
-        .footer-copy { font-size: 11px; font-weight: 300; letter-spacing: 1px; color: #5a6a7a; }
+        .footer-logo em { font-style: normal; color: #7aafd4; }
+        .footer-copy { font-size: 12px; font-weight: 300; letter-spacing: 0.5px; color: #7a7570; }
         .footer-social { display: flex; gap: 16px; }
-        .footer-social a { color: #5a6a7a; transition: color 0.2s; }
-        .footer-social a:hover { color: #6a9fd8; }
+        .footer-social a { color: #7a7570; transition: color 0.2s; }
+        .footer-social a:hover { color: #7aafd4; }
         .footer-social svg { width: 18px; height: 18px; fill: currentColor; }
 
         /* MOBILE */
@@ -423,16 +425,25 @@
             nav { display: none; }
             .header-social { display: none; }
             .hamburger { display: flex; }
-            .hero { height: 100vh; }
-            .hero-content { padding: 0 24px 48px; }
-            .hero h1 { font-size: 44px; }
+
+            .hero {
+                height: auto;
+                min-height: unset;
+                align-items: center;
+                padding: 52px 0 48px;
+            }
+
+            .hero-content { padding: 0 24px; max-width: 100%; }
+            .hero h1 { font-size: 42px; }
+            .hero p { font-size: 15px; }
+
             .features-section { padding: 60px 0; }
             .container { padding: 0 24px; }
             .features-grid { grid-template-columns: 1fr; }
             .section-title { font-size: 32px; }
             .about-inner { padding: 0 24px; }
             .about-inner blockquote { font-size: 24px; }
-            footer { flex-direction: column; gap: 20px; text-align: center; }
+            footer { flex-direction: column; gap: 20px; text-align: center; padding: 40px 24px; }
         }
     </style>
 </head>
@@ -539,11 +550,12 @@
         <a href="#" title="Facebook"><svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
     </div>
 </footer>
+
 <!-- COMING SOON POPUP -->
 <div id="popup-overlay" style="
     position: fixed;
     inset: 0;
-    background: rgba(28,28,30,0.85);
+    background: rgba(42,40,37,0.82);
     z-index: 1000;
     display: flex;
     align-items: center;
@@ -552,58 +564,58 @@
     backdrop-filter: blur(4px);
 ">
     <div style="
-        background: #ffffff;
+        background: #fffdf9;
         max-width: 480px;
         width: 100%;
         padding: 56px 48px;
         text-align: center;
         position: relative;
-        border: 1px solid #c8d4e0;
+        border: 1px solid #c8bfb4;
     ">
         <div style="
             position: absolute;
             inset: 6px;
-            border: 1px solid #dce6f0;
+            border: 1px solid #ddd8d0;
             pointer-events: none;
         "></div>
         <p style="
-            font-size: 10px;
+            font-size: 12px;
             font-weight: 500;
-            letter-spacing: 4px;
+            letter-spacing: 3px;
             text-transform: uppercase;
-            color: #4a6fa5;
+            color: #5a7fa8;
             margin-bottom: 16px;
-            font-family: 'DM Sans', sans-serif;
+            font-family: 'Outfit', sans-serif;
         ">Southern Market 202</p>
         <h2 style="
-            font-family: 'Cormorant Garamond', serif;
+            font-family: 'Fraunces', serif;
             font-size: 36px;
             font-weight: 300;
-            color: #1c1c1e;
+            color: #2a2825;
             line-height: 1.2;
             margin-bottom: 16px;
-        ">Currently curating<br>our <em style="font-style:italic;color:#4a6fa5;">collection.</em></h2>
+        ">Currently curating<br>our <em style="font-style:italic;color:#5a7fa8;">collection.</em></h2>
         <p style="
             font-size: 14px;
             font-weight: 300;
-            color: #5a6070;
+            color: #6b6560;
             line-height: 1.8;
             margin-bottom: 32px;
-            font-family: 'DM Sans', sans-serif;
+            font-family: 'Outfit', sans-serif;
         ">Launching soon — something beautiful is on its way.</p>
         <button onclick="document.getElementById('popup-overlay').style.display='none'" style="
-            background: #1c1c1e;
+            background: #2a2825;
             color: #ffffff;
             border: none;
             padding: 14px 36px;
-            font-size: 11px;
+            font-size: 12px;
             font-weight: 500;
             letter-spacing: 2px;
             text-transform: uppercase;
             cursor: pointer;
-            font-family: 'DM Sans', sans-serif;
+            font-family: 'Outfit', sans-serif;
             transition: background 0.2s;
-        " onmouseover="this.style.background='#4a6fa5'" onmouseout="this.style.background='#1c1c1e'">
+        " onmouseover="this.style.background='#5a7fa8'" onmouseout="this.style.background='#2a2825'">
             Browse Anyway
         </button>
     </div>
