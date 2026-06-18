@@ -556,7 +556,7 @@
         try {
             await fetch(`${SUPABASE_URL}/functions/v1/send-inquiry-email`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json', 'apikey': SUPABASE_KEY },
+                headers: { 'Content-Type': 'application/json', 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` },
                 body: JSON.stringify({
                     listing_title: currentListing.title,
                     listing_slug:  currentListing.slug,
