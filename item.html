@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Item — Southern Market 202</title>
+    <meta name="description" content="">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --navy:   #1a2744;
+            --black:  #0a0a0a;
+            --blue:   #a8c0d6;
+            --white:  #ffffff;
+            --heading:#1a1a1a;
+            --body:   #5a5a5a;
+            --border: #e8e8e8;
+            --dim:    rgba(255,255,255,0.55);
+            --dborder:rgba(255,255,255,0.12);
+        }
+
+        body { font-family: 'Helvetica Neue', Arial, Helvetica, sans-serif; background: var(--white); color: var(--heading); }
+
+        /* ── HEADER ── */
+        header { background: var(--white); border-bottom: 1px solid var(--border); padding: 0 48px; height: 72px; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; position: sticky; top: 0; z-index: 200; }
+        .logo { text-decoration: none; display: inline-block; line-height: 1; }
+        .logo-block { display: inline-flex; flex-direction: column; align-items: flex-start; background: var(--navy); padding: 8px 14px 10px; gap: 3px; }
+        .logo-top { font-size: 13px; font-weight: 800; letter-spacing: 4px; text-transform: uppercase; color: var(--white); display: block; white-space: nowrap; }
+        .logo-bottom { font-size: 13px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; color: var(--white); display: block; white-space: nowrap; }
+        nav { display: flex; gap: 40px; align-items: center; justify-content: center; }
+        nav a { font-size: 13px; font-weight: 800; letter-spacing: 2.5px; text-transform: uppercase; color: var(--navy); text-decoration: none; transition: color 0.2s; }
+        nav a:hover, nav a.active { color: var(--blue); }
+        .header-right { display: flex; justify-content: flex-end; align-items: center; gap: 20px; }
+        .header-social { display: flex; gap: 14px; align-items: center; }
+        .header-social a { display: flex; color: var(--blue); transition: opacity 0.2s; }
+        .header-social a:hover { opacity: 0.65; }
+        .header-social svg { width: 18px; height: 18px; fill: currentColor; }
+        .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; background: none; border: none; }
+        .hamburger span { display: block; width: 24px; height: 2px; background: var(--navy); transition: all 0.3s; }
+        .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+        .hamburger.open span:nth-child(2) { opacity: 0; }
+        .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+        .mobile-menu { display: none; position: fixed; top: 72px; left: 0; right: 0; background: var(--white); border-bottom: 1px solid var(--border); z-index: 199; padding: 24px 32px; flex-direction: column; box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
+        .mobile-menu.open { display: flex; }
+        .mobile-menu a { font-size: 13px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; color: var(--navy); text-decoration: none; padding: 16px 0; border-bottom: 1px solid var(--border); transition: color 0.2s; }
+        .mobile-menu a:last-child { border-bottom: none; }
+        .mobile-menu a:hover { color: var(--blue); }
+        .mobile-social { display: flex; gap: 16px; padding-top: 20px; }
+        .mobile-social a { display: flex; color: var(--blue); }
+        .mobile-social svg { width: 20px; height: 20px; fill: currentColor; }
+
+        /* ── BREADCRUMB ── */
+        .breadcrumb {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px 48px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--body);
+        }
+        .breadcrumb a { color: var(--body); text-decoration: none; transition: color 0.2s; }
+        .breadcrumb a:hover { color: var(--navy); }
+        .breadcrumb span { color: #ccc; }
+
+        /* ── ITEM LAYOUT ── */
+        .item-wrap {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 48px 96px;
+        }
+
+        .item-grid {
+            display: grid;
+            grid-template-columns: 1fr 420px;
+            gap: 80px;
+            align-items: start;
+        }
+
+        /* ── PHOTO ── */
+        .item-photo-wrap { position: sticky; top: 100px; }
+
+        .item-photo {
+            width: 100%;
+            aspect-ratio: 4/3;
+            object-fit: cover;
+            display: block;
+            border: 1px solid var(--border);
+        }
+
+        .item-photo-placeholder {
+            width: 100%;
+            aspect-ratio: 4/3;
+            background: var(--navy);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--border);
+        }
+
+        .item-photo-placeholder svg { opacity: 0.2; }
+
+        .sold-strip {
+            background: #c0392b;
+            color: var(--white);
+            text-align: center;
+            padding: 12px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-top: 12px;
+        }
+
+        /* ── ITEM DETAILS ── */
+        .item-details { padding-top: 8px; }
+
+        .item-eyebrow {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--blue);
+            margin-bottom: 16px;
+        }
+
+        .item-title {
+            font-size: 42px;
+            font-weight: 800;
+            color: var(--heading);
+            letter-spacing: -1.5px;
+            line-height: 1.1;
+            margin-bottom: 20px;
+        }
+
+        .item-price {
+            font-size: 36px;
+            font-weight: 800;
+            color: var(--navy);
+            letter-spacing: -1px;
+            margin-bottom: 32px;
+        }
+
+        /* ── SPECS ── */
+        .item-specs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1px;
+            background: var(--border);
+            border: 1px solid var(--border);
+            margin-bottom: 40px;
+        }
+
+        .spec-cell {
+            background: var(--white);
+            padding: 16px 20px;
+        }
+
+        .spec-label {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #b0b0b0;
+            margin-bottom: 4px;
+        }
+
+        .spec-value {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--heading);
+        }
+
+        /* ── STORY ── */
+        .item-story-label {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--blue);
+            margin-bottom: 16px;
+        }
+
+        .item-story {
+            font-size: 16px;
+            color: var(--body);
+            line-height: 1.85;
+            margin-bottom: 40px;
+            white-space: pre-wrap;
+        }
+
+        /* ── DIVIDER ── */
+        .divider { border: none; border-top: 1px solid var(--border); margin: 40px 0; }
+
+        /* ── INTEREST FORM ── */
+        .interest-section {}
+
+        .interest-title {
+            font-size: 26px;
+            font-weight: 800;
+            color: var(--heading);
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+        }
+
+        .interest-sub {
+            font-size: 14px;
+            color: var(--body);
+            line-height: 1.65;
+            margin-bottom: 28px;
+        }
+
+        .form-group { margin-bottom: 16px; }
+
+        .form-group label {
+            display: block;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--heading);
+            margin-bottom: 8px;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            border: 1px solid var(--border);
+            padding: 12px 14px;
+            font-size: 14px;
+            font-family: 'Helvetica Neue', Arial, Helvetica, sans-serif;
+            color: var(--heading);
+            background: var(--white);
+            transition: border-color 0.2s;
+            outline: none;
+            border-radius: 0;
+            -webkit-appearance: none;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus { border-color: var(--navy); }
+
+        .form-group textarea { height: 120px; resize: vertical; }
+
+        .optional-label { font-weight: 400; color: var(--body); text-transform: none; letter-spacing: 0; font-size: 11px; }
+
+        .submit-btn {
+            width: 100%;
+            background: var(--navy);
+            color: var(--white);
+            border: none;
+            padding: 16px;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: background 0.2s;
+            font-family: 'Helvetica Neue', Arial, Helvetica, sans-serif;
+            margin-top: 8px;
+        }
+
+        .submit-btn:hover { background: var(--black); }
+        .submit-btn:disabled { background: #c0c0c0; cursor: not-allowed; }
+
+        .form-success {
+            display: none;
+            background: var(--navy);
+            color: var(--white);
+            padding: 24px 28px;
+            margin-top: 16px;
+        }
+
+        .form-success h4 { font-size: 16px; font-weight: 700; margin-bottom: 6px; }
+        .form-success p { font-size: 13px; color: rgba(255,255,255,0.7); line-height: 1.6; }
+
+        .form-error { color: #c0392b; font-size: 13px; margin-top: 8px; display: none; }
+
+        /* ── BACK LINK ── */
+        .back-link-wrap { padding: 0 48px 24px; max-width: 1200px; margin: 0 auto; display: none; }
+        .back-link { font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--body); text-decoration: none; transition: color 0.2s; }
+        .back-link:hover { color: var(--navy); }
+
+        /* ── NOT FOUND ── */
+        .not-found { text-align: center; padding: 120px 48px; }
+        .not-found h2 { font-size: 32px; font-weight: 800; color: var(--heading); margin-bottom: 16px; }
+        .not-found p { font-size: 15px; color: var(--body); margin-bottom: 32px; }
+        .not-found a { display: inline-block; background: var(--navy); color: var(--white); padding: 14px 28px; font-size: 11px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; text-decoration: none; }
+
+        /* ── FOOTER ── */
+        footer { background: var(--black); border-top: 1px solid var(--dborder); padding: 48px; display: flex; justify-content: space-between; align-items: center; }
+        .footer-logo { text-decoration: none; display: inline-block; }
+        .footer-logo-block { display: inline-flex; flex-direction: column; align-items: flex-start; gap: 3px; }
+        .footer-logo-top { font-size: 13px; font-weight: 800; letter-spacing: 4px; color: var(--white); text-transform: uppercase; display: block; white-space: nowrap; }
+        .footer-logo-bottom { font-size: 13px; font-weight: 800; letter-spacing: 2px; color: var(--white); text-transform: uppercase; display: block; white-space: nowrap; }
+        .footer-copy { font-size: 12px; font-weight: 400; color: var(--dim); letter-spacing: 0.3px; }
+        .footer-social { display: flex; gap: 16px; }
+        .footer-social a { color: var(--dim); transition: color 0.2s; }
+        .footer-social a:hover { color: var(--white); }
+        .footer-social svg { width: 18px; height: 18px; fill: currentColor; }
+
+        /* ── MOBILE ── */
+        @media (max-width: 900px) {
+            .item-grid { grid-template-columns: 1fr; gap: 40px; }
+            .item-photo-wrap { position: static; }
+            .item-title { font-size: 32px; }
+        }
+
+        @media (max-width: 768px) {
+            header { padding: 0 20px; grid-template-columns: 1fr auto; }
+            nav { display: none; }
+            .header-social { display: none; }
+            .hamburger { display: flex; }
+            .breadcrumb { padding: 16px 20px; }
+            .item-wrap { padding: 0 20px 64px; }
+            .item-specs { grid-template-columns: 1fr; }
+            footer { flex-direction: column; gap: 24px; text-align: center; padding: 40px 24px; }
+            .footer-logo-block { align-items: center; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <a href="index.html" class="logo">
+        <span class="logo-block">
+            <span class="logo-top">Southern</span>
+            <span class="logo-bottom">Market 202</span>
+        </span>
+    </a>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="shop.html" class="active">Shop</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+        <a href="blog.html">Journal</a>
+    </nav>
+    <div class="header-right">
+        <div class="header-social">
+            <a href="#" title="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
+            <a href="#" title="Facebook"><svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+        </div>
+        <button class="hamburger" id="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+    </div>
+</header>
+
+<div class="mobile-menu" id="mobile-menu">
+    <a href="index.html">Home</a>
+    <a href="shop.html" class="active">Shop</a>
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
+    <a href="blog.html">Journal</a>
+    <div class="mobile-social">
+        <a href="#" title="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
+        <a href="#" title="Facebook"><svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+    </div>
+</div>
+
+<div id="item-content">
+    <!-- Loaded dynamically -->
+</div>
+
+<footer>
+    <a href="index.html" class="footer-logo">
+        <span class="footer-logo-block">
+            <span class="footer-logo-top">Southern</span>
+            <span class="footer-logo-bottom">Market 202</span>
+        </span>
+    </a>
+    <p class="footer-copy">© 2025 Southern Market 202 · Williamston, SC</p>
+    <div class="footer-social">
+        <a href="#" title="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
+        <a href="#" title="Facebook"><svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+    const SUPABASE_URL = 'https://cljkimiocyodlyrlxkjl.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNsamtpbWlvY3lvZGx5cmx4a2psIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkzODI4NTUsImV4cCI6MjA5NDk1ODg1NX0.oQ6v5iKSzUGY9cNwv1lUfAFJeqiJAwRQnu6R0bsx2Uw';
+    const db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    let currentListing = null;
+
+    function toggleMenu() {
+        document.getElementById('mobile-menu').classList.toggle('open');
+        document.getElementById('hamburger').classList.toggle('open');
+    }
+
+    function formatPrice(price) {
+        return '$' + parseFloat(price).toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+    }
+
+    async function loadItem() {
+        const slug = new URLSearchParams(window.location.search).get('slug');
+        const container = document.getElementById('item-content');
+
+        if (!slug) {
+            renderNotFound(container);
+            return;
+        }
+
+        const { data, error } = await db
+            .from('listings')
+            .select('*')
+            .eq('slug', slug)
+            .single();
+
+        if (error || !data) {
+            renderNotFound(container);
+            return;
+        }
+
+        currentListing = data;
+
+        // Update page title and meta
+        document.title = `${data.title} — Southern Market 202`;
+        document.querySelector('meta[name="description"]').setAttribute('content',
+            data.excerpt || `${data.title} — available at Southern Market 202 in Williamston, SC.`);
+
+        const specsHTML = buildSpecs(data);
+
+        container.innerHTML = `
+            <div class="breadcrumb">
+                <a href="shop.html">Shop</a>
+                <span>›</span>
+                <span>${data.title}</span>
+            </div>
+
+            <div class="item-wrap">
+                <div class="item-grid">
+                    <div class="item-photo-wrap">
+                        ${data.image_url
+                            ? `<img src="${data.image_url}" alt="${data.title}" class="item-photo">`
+                            : `<div class="item-photo-placeholder">
+                                <svg width="80" height="80" viewBox="0 0 48 48" fill="none" stroke="#ffffff" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="6" y="10" width="36" height="28" rx="1"/>
+                                    <circle cx="18" cy="21" r="5"/>
+                                    <path d="M6 34 L15 25 L22 32 L30 24 L42 34"/>
+                                </svg>
+                               </div>`
+                        }
+                        ${data.sold ? '<div class="sold-strip">This item has been sold</div>' : ''}
+                    </div>
+
+                    <div class="item-details">
+                        <p class="item-eyebrow">${data.category || 'Vintage'}</p>
+                        <h1 class="item-title">${data.title}</h1>
+                        <p class="item-price">${formatPrice(data.price)}</p>
+
+                        ${specsHTML}
+
+                        ${data.story ? `
+                            <p class="item-story-label">The Story</p>
+                            <p class="item-story">${data.story}</p>
+                        ` : ''}
+
+                        <hr class="divider">
+
+                        ${data.sold ? `
+                            <div style="background:#fdf2f2;border:1px solid #f5c6c6;padding:24px 28px;">
+                                <h3 style="font-size:18px;font-weight:800;color:#c0392b;margin-bottom:8px;">This item has been sold</h3>
+                                <p style="font-size:14px;color:#666;line-height:1.6;">Check back soon — we're always finding new pieces. <a href="shop.html" style="color:var(--navy);font-weight:700;">View current items →</a></p>
+                            </div>
+                        ` : `
+                            <div class="interest-section">
+                                <h2 class="interest-title">I'm interested in this</h2>
+                                <p class="interest-sub">Leave your info and we'll reach out personally to answer any questions and arrange a time to connect.</p>
+
+                                <form id="interest-form" onsubmit="submitInquiry(event)">
+                                    <div class="form-group">
+                                        <label for="inq-name">Your Name</label>
+                                        <input type="text" id="inq-name" placeholder="First and last name" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inq-email">Email Address</label>
+                                        <input type="email" id="inq-email" placeholder="you@email.com" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inq-phone">Phone Number <span class="optional-label">(optional)</span></label>
+                                        <input type="tel" id="inq-phone" placeholder="(555) 000-0000">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inq-message">Message <span class="optional-label">(optional)</span></label>
+                                        <textarea id="inq-message" placeholder="Any questions about the piece, dimensions, condition, etc."></textarea>
+                                    </div>
+                                    <button type="submit" class="submit-btn" id="inq-submit">Send My Interest</button>
+                                    <p class="form-error" id="inq-error">Something went wrong. Please try again.</p>
+                                </form>
+
+                                <div class="form-success" id="inq-success">
+                                    <h4>We got your message!</h4>
+                                    <p>Thanks for your interest in <strong>${data.title}</strong>. We'll be in touch soon to talk through the details.</p>
+                                </div>
+                            </div>
+                        `}
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+
+    function buildSpecs(data) {
+        const specs = [];
+        if (data.condition)   specs.push(['Condition', data.condition]);
+        if (data.category)    specs.push(['Category', data.category]);
+        if (data.dimensions)  specs.push(['Dimensions', data.dimensions]);
+        if (data.restoration_notes) specs.push(['Restoration', data.restoration_notes]);
+        if (!specs.length) return '';
+
+        return `<div class="item-specs">
+            ${specs.map(([label, value]) => `
+                <div class="spec-cell">
+                    <p class="spec-label">${label}</p>
+                    <p class="spec-value">${value}</p>
+                </div>
+            `).join('')}
+        </div>`;
+    }
+
+    async function submitInquiry(e) {
+        e.preventDefault();
+
+        const btn = document.getElementById('inq-submit');
+        const errEl = document.getElementById('inq-error');
+        btn.textContent = 'Sending...';
+        btn.disabled = true;
+        errEl.style.display = 'none';
+
+        const name    = document.getElementById('inq-name').value.trim();
+        const email   = document.getElementById('inq-email').value.trim();
+        const phone   = document.getElementById('inq-phone').value.trim();
+        const message = document.getElementById('inq-message').value.trim();
+
+        // Save to Supabase
+        const { error: dbError } = await db.from('inquiries').insert({
+            listing_id:    currentListing.id,
+            listing_title: currentListing.title,
+            name, email, phone,
+            message: message || `I'm interested in the ${currentListing.title}.`,
+        });
+
+        if (dbError) {
+            btn.textContent = 'Send My Interest';
+            btn.disabled = false;
+            errEl.style.display = 'block';
+            return;
+        }
+
+        // Fire inquiry email via edge function
+        try {
+            await fetch(`${SUPABASE_URL}/functions/v1/send-inquiry-email`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'apikey': SUPABASE_KEY },
+                body: JSON.stringify({
+                    listing_title: currentListing.title,
+                    listing_slug:  currentListing.slug,
+                    price:         currentListing.price,
+                    name, email, phone,
+                    message: message || `I'm interested in the ${currentListing.title}.`,
+                }),
+            });
+        } catch (_) {
+            // Email failure is non-fatal — inquiry is already saved
+        }
+
+        document.getElementById('interest-form').style.display = 'none';
+        document.getElementById('inq-success').style.display = 'block';
+    }
+
+    function renderNotFound(container) {
+        container.innerHTML = `
+            <div class="not-found">
+                <h2>Item Not Found</h2>
+                <p>This item may have been sold or removed. Browse what's currently available.</p>
+                <a href="shop.html">Back to Shop</a>
+            </div>
+        `;
+    }
+
+    function calibrateLogos() {
+        [['.logo-top', '.logo-bottom'], ['.footer-logo-top', '.footer-logo-bottom']].forEach(([t, b]) => {
+            document.querySelectorAll(t).forEach(top => {
+                const bottom = top.parentElement.querySelector(b);
+                if (!bottom) return;
+                top.style.letterSpacing = '0px';
+                const gap = (bottom.getBoundingClientRect().width - top.getBoundingClientRect().width) / top.textContent.trim().length;
+                top.style.letterSpacing = Math.max(0, gap) + 'px';
+            });
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', calibrateLogos);
+    window.addEventListener('resize', calibrateLogos);
+    loadItem();
+</script>
+
+</body>
+</html>
