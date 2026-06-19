@@ -22,14 +22,17 @@
             --dborder:rgba(255,255,255,0.12);
         }
 
-        body { font-family: 'Helvetica Neue', Arial, Helvetica, sans-serif; background: var(--white); color: var(--heading); }
+        body { font-family: 'Helvetica Neue', Arial, Helvetica, sans-serif; background: var(--navy); color: var(--heading); }
 
         /* ── WORDMARK ── */
+        .brand { display: flex; align-items: center; gap: 2px; }
+        .palmetto-icon { width: 28px; height: 42px; flex-shrink: 0; }
         .wordmark { display: inline-flex; flex-direction: column; align-items: flex-start; line-height: 1; text-decoration: none; }
         .wm-script { font-family: 'Dancing Script', cursive; font-weight: 700; font-size: 36px; color: var(--navy); line-height: 1; }
         .wm-caps { font-family: 'Helvetica Neue', Arial, sans-serif; font-weight: 800; font-size: 12px; letter-spacing: 4px; text-transform: uppercase; color: var(--navy); margin-top: -4px; }
         .wordmark.light .wm-script { color: var(--cream); }
         .wordmark.light .wm-caps   { color: var(--cream); }
+        .brand.light .palmetto-icon path, .brand.light .palmetto-icon rect { stroke: var(--cream); }
 
         /* ── HEADER ── */
         header {
@@ -76,12 +79,12 @@
         .hero {
             position: relative;
             background: var(--navy);
-            padding: 160px 80px 172px;
+            padding: 100px 80px 110px;
             display: flex;
             align-items: center;
             justify-content: center;
             text-align: center;
-            min-height: 92vh;
+            min-height: 60vh;
             overflow: hidden;
         }
 
@@ -134,34 +137,92 @@
         .btn-primary:hover { background: var(--cream); color: var(--navy); }
 
         /* ── FEATURES ── */
-        .features-section { padding: 128px 0; background: var(--white); }
+        .features-section { padding: 72px 0 96px; background: var(--navy); }
 
         .container { max-width: 1200px; margin: 0 auto; padding: 0 64px; }
 
-        .section-header { text-align: center; margin-bottom: 72px; }
+        .section-header { text-align: center; margin-bottom: 48px; }
 
         .section-label { font-size: 11px; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; color: var(--tan); margin-bottom: 16px; }
 
-        .section-title { font-family: 'Dancing Script', cursive; font-size: 64px; font-weight: 700; color: var(--navy); line-height: 1; letter-spacing: 0; }
+        .section-title { font-family: 'Dancing Script', cursive; font-size: 64px; font-weight: 700; color: var(--cream); line-height: 1; letter-spacing: 0; }
 
         .features-grid { display: flex; flex-direction: column; }
 
         .feature {
             padding: 64px 0;
-            border-bottom: 1px solid var(--border);
+            border-bottom: 1px solid var(--dborder);
             display: flex;
             align-items: center;
             gap: 56px;
         }
-        .feature:first-child { border-top: 1px solid var(--border); }
+        .feature:first-child { border-top: 1px solid var(--dborder); }
 
         .feature-icon { display: block; flex-shrink: 0; opacity: 0.9; }
 
         .feature-text { flex: 1; }
 
-        .feature h3 { font-size: 36px; font-weight: 800; color: var(--navy); margin-bottom: 14px; letter-spacing: -1px; }
+        .feature h3 { font-size: 36px; font-weight: 800; color: var(--cream); margin-bottom: 14px; letter-spacing: -1px; }
 
-        .feature p { font-size: 17px; color: var(--body); line-height: 1.9; max-width: 580px; }
+        .feature p { font-size: 17px; color: var(--dim); line-height: 1.9; max-width: 580px; }
+
+        /* ── FEATURED ITEMS ── */
+        .featured-section { padding: 128px 0; background: var(--navy); border-top: 1px solid var(--dborder); }
+
+        .featured-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 32px;
+            margin-bottom: 56px;
+        }
+
+        .listing-card {
+            background: var(--cream);
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.2s, box-shadow 0.2s;
+            text-decoration: none;
+            color: inherit;
+        }
+        .listing-card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(0,0,0,0.3); }
+
+        .listing-img { width: 100%; height: 240px; object-fit: cover; display: block; }
+
+        .listing-img-placeholder {
+            width: 100%; height: 240px;
+            background: rgba(43,58,92,0.25);
+            display: flex; align-items: center; justify-content: center;
+        }
+        .listing-img-placeholder svg { opacity: 0.3; }
+
+        .listing-card-inner { position: relative; }
+
+        .listing-info { padding: 24px 24px 28px; display: flex; flex-direction: column; flex: 1; }
+
+        .listing-category { font-size: 11px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; color: var(--tan); margin-bottom: 8px; }
+
+        .listing-title { font-size: 20px; font-weight: 800; color: var(--navy); letter-spacing: -0.3px; line-height: 1.2; margin-bottom: 10px; }
+
+        .listing-excerpt { font-size: 13px; color: #6b5f4e; line-height: 1.75; margin-bottom: 20px; flex: 1; }
+
+        .listing-footer {
+            display: flex; justify-content: space-between; align-items: center;
+            border-top: 1px solid rgba(139,115,85,0.2);
+            padding-top: 16px; margin-top: auto;
+        }
+
+        .listing-price { font-size: 22px; font-weight: 800; color: var(--navy); letter-spacing: -0.5px; }
+
+        .listing-cta {
+            font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+            color: var(--navy); border-bottom: 2px solid var(--tan); padding-bottom: 2px;
+            transition: color 0.2s, border-color 0.2s;
+        }
+        .listing-card:hover .listing-cta { color: var(--tan); border-color: var(--navy); }
+
+        .featured-footer { text-align: center; margin-top: 8px; }
+
+        .empty-msg { color: var(--dim); font-size: 15px; line-height: 1.75; text-align: center; padding: 60px 0; }
 
         /* ── ABOUT STRIP ── */
         .about-strip { background: var(--navy); padding: 120px 0; }
@@ -234,6 +295,8 @@
             .hero h1 { font-size: 64px; }
             .hero-label { margin-bottom: 24px; }
             .features-section { padding: 80px 0; }
+            .featured-section { padding: 80px 0; }
+            .featured-grid { grid-template-columns: 1fr; gap: 20px; }
             .container { padding: 0 24px; }
             .section-title { font-size: 48px; }
             .feature { flex-direction: column; gap: 24px; padding: 48px 0; align-items: flex-start; }
@@ -256,7 +319,6 @@
         <a href="shop.html">Shop</a>
         <a href="about.html">About</a>
         <a href="contact.html">Contact</a>
-        <a href="blog.html">Journal</a>
     </nav>
     <div class="header-right">
         <div class="header-social">
@@ -272,7 +334,6 @@
     <a href="shop.html">Shop</a>
     <a href="about.html">About</a>
     <a href="contact.html">Contact</a>
-    <a href="blog.html">Journal</a>
     <div class="mobile-social">
         <a href="#" title="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
         <a href="#" title="Facebook"><svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
@@ -284,9 +345,8 @@
         <source src="images/hero-bg.mp4" type="video/mp4">
     </video>
     <div class="hero-content">
-        <span class="hero-label">Williamston, South Carolina</span>
-        <h1>Where Every<br>Piece Tells<br>a Story</h1>
-        <p class="hero-sub">Antiques, vintage goods and unique finds — curated with Southern warmth and care.</p>
+        <h1>Every Piece<br>Tells a Story</h1>
+        <p class="hero-sub">Antiques, Vintage Goods, & Unique Finds — Curated with Southern Warmth and Care.</p>
         <a href="shop.html" class="btn-primary">Browse the Shop</a>
     </div>
 </div>
@@ -294,7 +354,6 @@
 <section class="features-section">
     <div class="container">
         <div class="section-header">
-            <p class="section-label">What We Offer</p>
             <h2 class="section-title">Curated With Care</h2>
         </div>
         <div class="features-grid">
@@ -345,10 +404,23 @@
     </div>
 </section>
 
+<section class="featured-section">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">From the Collection</h2>
+        </div>
+        <div id="featured-grid" class="featured-grid">
+            <p class="empty-msg">Loading pieces…</p>
+        </div>
+        <div class="featured-footer">
+            <a href="shop.html" class="btn-ghost">View All Items</a>
+        </div>
+    </div>
+</section>
+
 <div class="about-strip">
     <div class="about-inner">
-        <blockquote>"Making a house a home — the comfortable Southern way."</blockquote>
-        <p>📍 Rooted in Williamston, South Carolina</p>
+        <blockquote>"Make your House a Home, the comfortable Southern way!"</blockquote>
         <a href="about.html" class="btn-ghost">Our Story</a>
     </div>
 </div>
@@ -374,11 +446,62 @@
     </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
     function toggleMenu() {
         document.getElementById('mobile-menu').classList.toggle('open');
         document.getElementById('hamburger').classList.toggle('open');
     }
+
+    // ── FEATURED ITEMS ──
+    const SUPABASE_URL = 'https://cljkimiocyodlyrlxkjl.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNsamtpbWlvY3lvZGx5cmx4a2psIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkzODI4NTUsImV4cCI6MjA5NDk1ODg1NX0.oQ6v5iKSzUGY9cNwv1lUfAFJeqiJAwRQnu6R0bsx2Uw';
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    async function loadFeatured() {
+        const { data, error } = await supabase
+            .from('listings')
+            .select('id, title, slug, excerpt, price, category, image_url, available, sold')
+            .eq('available', true)
+            .eq('sold', false)
+            .order('published_at', { ascending: false })
+            .limit(4);
+
+        const grid = document.getElementById('featured-grid');
+
+        if (error || !data || !data.length) {
+            grid.innerHTML = '<p class="empty-msg">New pieces coming soon — check back shortly.</p>';
+            return;
+        }
+
+        grid.innerHTML = data.map(listing => `
+            <a href="item.html?slug=${listing.slug}" class="listing-card">
+                <div class="listing-card-inner">
+                    ${listing.image_url
+                        ? `<img src="${listing.image_url}" alt="${listing.title}" class="listing-img">`
+                        : `<div class="listing-img-placeholder">
+                            <svg width="56" height="56" viewBox="0 0 48 48" fill="none" stroke="#2B3A5C" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="6" y="10" width="36" height="28" rx="1"/>
+                                <circle cx="18" cy="21" r="5"/>
+                                <path d="M6 34 L15 25 L22 32 L30 24 L42 34"/>
+                            </svg>
+                           </div>`
+                    }
+                </div>
+                <div class="listing-info">
+                    <p class="listing-category">${listing.category || 'Vintage'}</p>
+                    <h2 class="listing-title">${listing.title}</h2>
+                    <p class="listing-excerpt">${listing.excerpt || ''}</p>
+                    <div class="listing-footer">
+                        <span class="listing-price">$${parseFloat(listing.price).toLocaleString('en-US', {minimumFractionDigits: 0, maximumFractionDigits: 0})}</span>
+                        <span class="listing-cta">View Details</span>
+                    </div>
+                </div>
+            </a>
+        `).join('');
+    }
+
+    loadFeatured();
 </script>
 
 </body>
