@@ -9,6 +9,14 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
+        @font-face {
+            font-family: 'ChunkFive';
+            src: url('fonts/ChunkFive-Regular.woff2') format('woff2');
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
+
         :root {
             --navy:   #2B3A5C;
             --black:  #0a0a0a;
@@ -75,7 +83,7 @@
         /* ── PAGE HERO ── */
         .page-hero { background: var(--navy); padding: 96px 48px; text-align: center; }
         .page-hero p { font-size: 11px; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; color: var(--dim); margin-bottom: 20px; }
-        .page-hero h1 { font-family: 'Dancing Script', cursive; font-size: 88px; font-weight: 700; color: var(--cream); line-height: 1; }
+        .page-hero h1 { font-family: 'ChunkFive', serif; font-size: 88px; font-weight: normal; color: var(--cream); line-height: 1; }
 
         /* ── ABOUT SECTION ── */
         .about-section {
@@ -89,7 +97,7 @@
         }
 
         .about-left blockquote {
-            font-family: 'Dancing Script', cursive;
+            font-family: 'ChunkFive', serif;
             font-size: 38px;
             font-weight: 700;
             color: var(--navy);
@@ -127,7 +135,7 @@
 
         .values-header p { font-size: 11px; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; color: var(--tan); margin-bottom: 16px; }
 
-        .values-header h2 { font-family: 'Dancing Script', cursive; font-size: 64px; font-weight: 700; color: var(--navy); line-height: 1; }
+        .values-header h2 { font-family: 'ChunkFive', serif; font-size: 64px; font-weight: normal; color: var(--navy); line-height: 1; }
 
         .values-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
 

@@ -9,6 +9,14 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
+        @font-face {
+            font-family: 'ChunkFive';
+            src: url('fonts/ChunkFive-Regular.woff2') format('woff2');
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
+
         :root {
             --navy:   #2B3A5C;
             --black:  #0a0a0a;
@@ -102,13 +110,13 @@
         .hero-label::before, .hero-label::after { content: ''; display: block; width: 36px; height: 1px; background: rgba(240,235,224,0.3); flex-shrink: 0; }
 
         .hero h1 {
-            font-family: 'Dancing Script', cursive;
+            font-family: 'ChunkFive', serif;
             font-size: 110px;
-            font-weight: 700;
-            line-height: 1.05;
+            font-weight: normal;
+            line-height: 1.15;
             color: var(--cream);
             margin-bottom: 28px;
-            letter-spacing: -1px;
+            letter-spacing: 1px;
         }
 
         .hero-sub {
@@ -145,7 +153,7 @@
 
         .section-label { font-size: 11px; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; color: var(--tan); margin-bottom: 16px; }
 
-        .section-title { font-family: 'Dancing Script', cursive; font-size: 64px; font-weight: 700; color: var(--cream); line-height: 1; letter-spacing: 0; }
+        .section-title { font-family: 'ChunkFive', serif; font-size: 64px; font-weight: normal; color: var(--cream); line-height: 1; letter-spacing: 0; }
 
         .features-grid { display: flex; flex-direction: column; }
 
@@ -230,11 +238,12 @@
         .about-inner { max-width: 800px; margin: 0 auto; text-align: center; padding: 0 64px; }
 
         .about-inner blockquote {
-            font-family: 'Dancing Script', cursive;
-            font-size: 52px;
-            font-weight: 700;
+            font-family: 'ChunkFive', serif;
+            font-size: 44px;
+            font-weight: normal;
             color: var(--cream);
-            line-height: 1.25;
+            line-height: 1.4;
+            letter-spacing: 0.5px;
             margin-bottom: 28px;
         }
 
@@ -276,7 +285,7 @@
             border-top: 3px solid var(--navy);
         }
         .popup-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--tan); margin-bottom: 16px; font-family: 'Helvetica Neue', Arial, sans-serif; }
-        .popup-title { font-family: 'Dancing Script', cursive; font-size: 48px; font-weight: 700; color: var(--navy); line-height: 1.15; margin-bottom: 16px; }
+        .popup-title { font-family: 'ChunkFive', serif; font-size: 48px; font-weight: normal; color: var(--navy); line-height: 1.15; margin-bottom: 16px; }
         .popup-body { font-size: 15px; color: var(--body); line-height: 1.7; margin-bottom: 36px; font-family: 'Helvetica Neue', Arial, sans-serif; }
         .popup-btn {
             background: transparent; color: var(--navy); border: 1.5px solid var(--navy);
