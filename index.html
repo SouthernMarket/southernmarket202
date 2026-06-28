@@ -466,7 +466,7 @@
     // ── FEATURED ITEMS ──
     const SUPABASE_URL = 'https://cljkimiocyodlyrlxkjl.supabase.co';
     const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNsamtpbWlvY3lvZGx5cmx4a2psIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkzODI4NTUsImV4cCI6MjA5NDk1ODg1NX0.oQ6v5iKSzUGY9cNwv1lUfAFJeqiJAwRQnu6R0bsx2Uw';
-    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
     function getFirstPhoto(image_url) {
         if (!image_url) return null;
@@ -480,7 +480,7 @@
     async function loadFeatured() {
         const grid = document.getElementById('featured-grid');
         try {
-            const { data, error } = await supabase
+            const { data, error } = await db
                 .from('listings')
                 .select('id, title, slug, excerpt, price, category, image_url, available, sold')
                 .eq('available', true)
