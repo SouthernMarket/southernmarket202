@@ -713,6 +713,7 @@
 
     // ── PHOTO HANDLING ──────────────────────────────────────
     let selectedPhotoFiles = [];
+    let photoDragSrcIndex  = null; // module-level so it survives re-renders
 
     function handlePhotoSelect(event) {
         const newFiles = Array.from(event.target.files);
@@ -749,18 +750,17 @@
         count.textContent = selectedPhotoFiles.length;
 
         thumbs.innerHTML = '';
-        let dragSrcIndex = null;
 
         selectedPhotoFiles.forEach((file, i) => {
             const wrap = document.createElement('div');
             wrap.className = 'photo-thumb-wrap';
             wrap.draggable = true;
             wrap.dataset.index = i;
-            wrap.title = i === 0 ? 'Cover photo — drag to reorder' : 'Drag to reorder · click to set as cover';
 
-            // ── Drag events ──
+            // ── Drag events (dragSrcIndex is module-level so it survives across calls) ──
             wrap.addEventListener('dragstart', (ev) => {
-                dragSrcIndex = i;
+                photoDragSrcIndex = parseInt(wrap.dataset.index);
+                ev.dataTransfer.setData('text/plain', photoDragSrcIndex);
                 ev.dataTransfer.effectAllowed = 'move';
                 setTimeout(() => wrap.classList.add('dragging'), 0);
             });
@@ -772,15 +772,17 @@
                 ev.preventDefault();
                 ev.dataTransfer.dropEffect = 'move';
                 document.querySelectorAll('.photo-thumb-wrap').forEach(w => w.classList.remove('drag-over'));
-                if (i !== dragSrcIndex) wrap.classList.add('drag-over');
+                const targetIndex = parseInt(wrap.dataset.index);
+                if (targetIndex !== photoDragSrcIndex) wrap.classList.add('drag-over');
             });
             wrap.addEventListener('drop', (ev) => {
                 ev.preventDefault();
-                if (dragSrcIndex === null || dragSrcIndex === i) return;
-                // Reorder the files array
-                const moved = selectedPhotoFiles.splice(dragSrcIndex, 1)[0];
-                selectedPhotoFiles.splice(i, 0, moved);
-                dragSrcIndex = null;
+                ev.stopPropagation();
+                const targetIndex = parseInt(wrap.dataset.index);
+                if (photoDragSrcIndex === null || photoDragSrcIndex === targetIndex) return;
+                const moved = selectedPhotoFiles.splice(photoDragSrcIndex, 1)[0];
+                selectedPhotoFiles.splice(targetIndex, 0, moved);
+                photoDragSrcIndex = null;
                 renderPhotoThumbs();
             });
 
@@ -789,8 +791,8 @@
                 const img = document.createElement('img');
                 img.src = e.target.result;
                 img.alt = file.name;
-                img.style.cursor = 'grab';
-                // Click to set as cover (if not already cover)
+                img.draggable = false; // prevent browser from hijacking drag with its own image-drag
+                img.style.cursor = i === 0 ? 'grab' : 'pointer';
                 img.onclick = () => { if (i !== 0) setCover(i); };
 
                 if (i === 0) {
