@@ -291,6 +291,26 @@
             font-weight: 700;
         }
 
+        .photo-thumb-set-cover {
+            position: absolute;
+            bottom: 4px;
+            left: 4px;
+            right: 24px;
+            background: rgba(0,0,0,0.55);
+            color: white;
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            padding: 2px 5px;
+            text-transform: uppercase;
+            opacity: 0;
+            transition: opacity 0.15s;
+            pointer-events: none;
+        }
+
+        .photo-thumb-wrap:hover .photo-thumb-set-cover { opacity: 1; }
+        .photo-thumb-wrap img:hover + .photo-thumb-set-cover { opacity: 1; }
+
         .photo-grid-add {
             display: inline-block;
             background: none;
@@ -729,25 +749,35 @@
         selectedPhotoFiles.forEach((file, i) => {
             const wrap = document.createElement('div');
             wrap.className = 'photo-thumb-wrap';
+            wrap.title = i === 0 ? 'Cover photo' : 'Click to set as cover';
 
             const reader = new FileReader();
             reader.onload = (e) => {
                 const img = document.createElement('img');
                 img.src = e.target.result;
                 img.alt = file.name;
+                // Click the image (not the × button) to set as cover
+                img.style.cursor = i === 0 ? 'default' : 'pointer';
+                img.onclick = () => { if (i !== 0) setCover(i); };
 
                 if (i === 0) {
                     const badge = document.createElement('span');
                     badge.className = 'photo-thumb-primary';
                     badge.textContent = 'Cover';
                     wrap.appendChild(badge);
+                } else {
+                    // Show a faint "set cover" hint on non-cover thumbs
+                    const hint = document.createElement('span');
+                    hint.className = 'photo-thumb-set-cover';
+                    hint.textContent = 'Set cover';
+                    wrap.appendChild(hint);
                 }
 
                 const removeBtn = document.createElement('button');
                 removeBtn.type = 'button';
                 removeBtn.className = 'photo-thumb-remove';
                 removeBtn.textContent = '×';
-                removeBtn.onclick = () => removePhoto(i);
+                removeBtn.onclick = (ev) => { ev.stopPropagation(); removePhoto(i); };
 
                 wrap.appendChild(img);
                 wrap.appendChild(removeBtn);
@@ -755,6 +785,13 @@
             };
             reader.readAsDataURL(file);
         });
+    }
+
+    function setCover(index) {
+        // Move the chosen photo to position 0
+        const [chosen] = selectedPhotoFiles.splice(index, 1);
+        selectedPhotoFiles.unshift(chosen);
+        renderPhotoThumbs();
     }
 
     function removePhoto(index) {
