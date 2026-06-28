@@ -212,7 +212,7 @@
         }
 
         .photo-upload-area:hover { border-color: var(--navy); background: #f0f3f8; }
-        .photo-upload-area.has-image { border-style: solid; border-color: var(--navy); padding: 0; }
+        .photo-upload-area.has-photos { border-color: var(--navy); background: #f0f3f8; border-style: solid; }
 
         .photo-upload-area input[type="file"] {
             position: absolute;
@@ -228,27 +228,93 @@
         .upload-prompt p { font-size: 13px; color: var(--body); margin-bottom: 4px; }
         .upload-prompt span { font-size: 11px; color: #b0b0b0; }
 
-        #photo-preview {
-            width: 100%;
-            max-height: 300px;
-            object-fit: cover;
+        /* Multi-photo preview grid */
+        #photo-preview-grid {
             display: none;
+            padding: 16px;
         }
 
-        .photo-change-btn {
-            display: none;
+        .photo-preview-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+
+        .photo-thumb-wrap {
+            position: relative;
+            width: 100px;
+            height: 80px;
+            flex-shrink: 0;
+        }
+
+        .photo-thumb-wrap img {
             width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border: 2px solid var(--border);
+            display: block;
+        }
+
+        .photo-thumb-wrap:first-child img {
+            border-color: var(--navy);
+        }
+
+        .photo-thumb-primary {
+            position: absolute;
+            top: 4px;
+            left: 4px;
             background: var(--navy);
             color: var(--white);
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            padding: 2px 6px;
+            text-transform: uppercase;
+        }
+
+        .photo-thumb-remove {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            width: 20px;
+            height: 20px;
+            background: #c0392b;
+            color: white;
             border: none;
-            padding: 10px;
+            cursor: pointer;
+            font-size: 14px;
+            line-height: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+
+        .photo-grid-add {
+            display: inline-block;
+            background: none;
+            border: 1px dashed var(--border);
+            padding: 7px 14px;
             font-size: 11px;
             font-weight: 700;
             letter-spacing: 2px;
             text-transform: uppercase;
             cursor: pointer;
             font-family: inherit;
+            color: var(--body);
+            transition: all 0.2s;
         }
+
+        .photo-grid-add:hover { border-color: var(--navy); color: var(--navy); }
+
+        .photo-count-label {
+            font-size: 12px;
+            color: var(--body);
+            margin-bottom: 8px;
+        }
+
+        .photo-count-label strong { color: var(--navy); }
 
         /* ── SLUG PREVIEW ── */
         .slug-preview {
@@ -448,23 +514,26 @@
 
             <form id="listing-form" onsubmit="publishListing(event)">
 
-                <!-- PHOTO -->
+                <!-- PHOTOS -->
                 <div class="form-section">
-                    <p class="form-section-title">Photo</p>
+                    <p class="form-section-title">Photos</p>
                     <div class="photo-upload-area" id="upload-area">
-                        <input type="file" id="photo-input" accept="image/*" onchange="handlePhotoSelect(event)">
+                        <input type="file" id="photo-input" accept="image/*" multiple onchange="handlePhotoSelect(event)">
                         <div class="upload-prompt" id="upload-prompt">
                             <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                                 <rect x="3" y="3" width="18" height="18" rx="2"/>
                                 <circle cx="8.5" cy="8.5" r="1.5"/>
                                 <path d="M21 15l-5-5L5 21"/>
                             </svg>
-                            <p>Click to upload a photo</p>
-                            <span>JPG, PNG or WEBP · Max 10MB</span>
+                            <p>Click to upload photos</p>
+                            <span>Select multiple at once · JPG, PNG or WEBP · Max 10MB each</span>
                         </div>
-                        <img id="photo-preview" alt="Preview">
+                        <div id="photo-preview-grid">
+                            <p class="photo-count-label"><strong id="photo-count">0</strong> photos selected — first one is the main cover image</p>
+                            <div class="photo-preview-row" id="photo-thumbs"></div>
+                            <button type="button" class="photo-grid-add" onclick="document.getElementById('photo-input').click()">+ Add More Photos</button>
+                        </div>
                     </div>
-                    <button type="button" class="photo-change-btn" id="photo-change-btn" onclick="changePhoto()">Change Photo</button>
                 </div>
 
                 <!-- BASICS -->
@@ -620,26 +689,77 @@
     }
 
     // ── PHOTO HANDLING ──────────────────────────────────────
-    let selectedPhotoFile = null;
+    let selectedPhotoFiles = [];
 
     function handlePhotoSelect(event) {
-        const file = event.target.files[0];
-        if (!file) return;
-        selectedPhotoFile = file;
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            const preview = document.getElementById('photo-preview');
-            preview.src = e.target.result;
-            preview.style.display = 'block';
-            document.getElementById('upload-prompt').style.display = 'none';
-            document.getElementById('upload-area').classList.add('has-image');
-            document.getElementById('photo-change-btn').style.display = 'block';
-        };
-        reader.readAsDataURL(file);
+        const newFiles = Array.from(event.target.files);
+        if (!newFiles.length) return;
+
+        // Add new files (avoid duplicates by name+size)
+        newFiles.forEach(file => {
+            const isDupe = selectedPhotoFiles.some(f => f.name === file.name && f.size === file.size);
+            if (!isDupe) selectedPhotoFiles.push(file);
+        });
+
+        // Clear the input so the same file can be re-selected if removed
+        event.target.value = '';
+
+        renderPhotoThumbs();
     }
 
-    function changePhoto() {
-        document.getElementById('photo-input').click();
+    function renderPhotoThumbs() {
+        const grid   = document.getElementById('photo-preview-grid');
+        const prompt = document.getElementById('upload-prompt');
+        const thumbs = document.getElementById('photo-thumbs');
+        const count  = document.getElementById('photo-count');
+
+        if (!selectedPhotoFiles.length) {
+            grid.style.display = 'none';
+            prompt.style.display = 'block';
+            document.getElementById('upload-area').classList.remove('has-photos');
+            return;
+        }
+
+        grid.style.display = 'block';
+        prompt.style.display = 'none';
+        document.getElementById('upload-area').classList.add('has-photos');
+        count.textContent = selectedPhotoFiles.length;
+
+        thumbs.innerHTML = '';
+        selectedPhotoFiles.forEach((file, i) => {
+            const wrap = document.createElement('div');
+            wrap.className = 'photo-thumb-wrap';
+
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const img = document.createElement('img');
+                img.src = e.target.result;
+                img.alt = file.name;
+
+                if (i === 0) {
+                    const badge = document.createElement('span');
+                    badge.className = 'photo-thumb-primary';
+                    badge.textContent = 'Cover';
+                    wrap.appendChild(badge);
+                }
+
+                const removeBtn = document.createElement('button');
+                removeBtn.type = 'button';
+                removeBtn.className = 'photo-thumb-remove';
+                removeBtn.textContent = '×';
+                removeBtn.onclick = () => removePhoto(i);
+
+                wrap.appendChild(img);
+                wrap.appendChild(removeBtn);
+                thumbs.appendChild(wrap);
+            };
+            reader.readAsDataURL(file);
+        });
+    }
+
+    function removePhoto(index) {
+        selectedPhotoFiles.splice(index, 1);
+        renderPhotoThumbs();
     }
 
     async function uploadPhoto(file) {
@@ -665,11 +785,18 @@
         msg.style.display = 'none';
 
         try {
-            // Upload photo if selected
+            // Upload all selected photos
             let imageUrl = null;
-            if (selectedPhotoFile) {
-                btn.textContent = 'Uploading photo...';
-                imageUrl = await uploadPhoto(selectedPhotoFile);
+            let imageUrls = [];
+
+            if (selectedPhotoFiles.length > 0) {
+                btn.textContent = `Uploading photo 1 of ${selectedPhotoFiles.length}...`;
+                for (let i = 0; i < selectedPhotoFiles.length; i++) {
+                    btn.textContent = `Uploading photo ${i + 1} of ${selectedPhotoFiles.length}...`;
+                    const url = await uploadPhoto(selectedPhotoFiles[i]);
+                    imageUrls.push(url);
+                }
+                imageUrl = imageUrls[0]; // first photo is the cover/thumbnail
             }
 
             const slug = generateSlug();
@@ -687,21 +814,21 @@
                 restoration_notes: document.getElementById('f-restoration').value.trim() || null,
                 available:         document.getElementById('f-available').checked,
                 sold:              false,
-                image_url:         imageUrl,
+                image_url:         imageUrls.length > 1 ? JSON.stringify(imageUrls) : imageUrl,
                 published_at:      new Date().toISOString(),
             };
 
             const { error } = await db.from('listings').insert(payload);
             if (error) throw error;
 
-            msg.textContent = '✓ Listing published! View it at shop.html';
+            const photoWord = imageUrls.length > 1 ? `${imageUrls.length} photos` : imageUrls.length === 1 ? '1 photo' : 'no photo';
+            msg.textContent = `✓ Listing published with ${photoWord}! View it at shop.html`;
             msg.className = 'form-msg success';
             document.getElementById('listing-form').reset();
-            selectedPhotoFile = null;
-            document.getElementById('photo-preview').style.display = 'none';
+            selectedPhotoFiles = [];
+            document.getElementById('photo-preview-grid').style.display = 'none';
             document.getElementById('upload-prompt').style.display = 'block';
-            document.getElementById('upload-area').classList.remove('has-image');
-            document.getElementById('photo-change-btn').style.display = 'none';
+            document.getElementById('upload-area').classList.remove('has-photos');
             document.getElementById('slug-preview-val').textContent = '—';
 
         } catch (err) {

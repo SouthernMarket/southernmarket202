@@ -89,6 +89,29 @@
 
         .sold-strip { background: #c0392b; color: var(--white); text-align: center; padding: 12px; font-size: 11px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; margin-top: 12px; }
 
+        /* ── PHOTO GALLERY ── */
+        .item-photo-main { width: 100%; aspect-ratio: 4/3; object-fit: cover; display: block; border: 1px solid var(--border); transition: opacity 0.2s; }
+
+        .item-thumb-strip {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+
+        .item-thumb {
+            width: 72px;
+            height: 56px;
+            object-fit: cover;
+            border: 2px solid var(--border);
+            cursor: pointer;
+            transition: border-color 0.15s, opacity 0.15s;
+            opacity: 0.65;
+        }
+
+        .item-thumb:hover { opacity: 1; }
+        .item-thumb.active { border-color: var(--navy); opacity: 1; }
+
         /* ── ITEM DETAILS ── */
         .item-details { padding-top: 8px; }
 
@@ -307,6 +330,38 @@
 
         const specsHTML = buildSpecs(data);
 
+        // Parse image_url — could be a plain URL string or a JSON array of URLs
+        let photoUrls = [];
+        if (data.image_url) {
+            try {
+                const parsed = JSON.parse(data.image_url);
+                if (Array.isArray(parsed)) photoUrls = parsed;
+                else photoUrls = [data.image_url];
+            } catch {
+                photoUrls = [data.image_url];
+            }
+        }
+
+        const galleryHTML = photoUrls.length > 0
+            ? `<img src="${photoUrls[0]}" alt="${data.title}" class="item-photo-main" id="main-photo">
+               ${photoUrls.length > 1
+                   ? `<div class="item-thumb-strip">
+                          ${photoUrls.map((url, i) =>
+                              `<img src="${url}" alt="${data.title} — photo ${i+1}"
+                                    class="item-thumb ${i === 0 ? 'active' : ''}"
+                                    onclick="switchPhoto(this, '${url}')">`
+                          ).join('')}
+                      </div>`
+                   : ''
+               }`
+            : `<div class="item-photo-placeholder">
+                   <svg width="80" height="80" viewBox="0 0 48 48" fill="none" stroke="#ffffff" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+                       <rect x="6" y="10" width="36" height="28" rx="1"/>
+                       <circle cx="18" cy="21" r="5"/>
+                       <path d="M6 34 L15 25 L22 32 L30 24 L42 34"/>
+                   </svg>
+               </div>`;
+
         container.innerHTML = `
             <div class="breadcrumb">
                 <a href="shop.html">Shop</a>
@@ -317,16 +372,7 @@
             <div class="item-wrap">
                 <div class="item-grid">
                     <div class="item-photo-wrap">
-                        ${data.image_url
-                            ? `<img src="${data.image_url}" alt="${data.title}" class="item-photo">`
-                            : `<div class="item-photo-placeholder">
-                                <svg width="80" height="80" viewBox="0 0 48 48" fill="none" stroke="#ffffff" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
-                                    <rect x="6" y="10" width="36" height="28" rx="1"/>
-                                    <circle cx="18" cy="21" r="5"/>
-                                    <path d="M6 34 L15 25 L22 32 L30 24 L42 34"/>
-                                </svg>
-                               </div>`
-                        }
+                        ${galleryHTML}
                         ${data.sold ? '<div class="sold-strip">This item has been sold</div>' : ''}
                     </div>
 
@@ -451,6 +497,14 @@
 
         document.getElementById('interest-form').style.display = 'none';
         document.getElementById('inq-success').style.display = 'block';
+    }
+
+    function switchPhoto(thumbEl, url) {
+        // Update main image
+        document.getElementById('main-photo').src = url;
+        // Update active thumb
+        document.querySelectorAll('.item-thumb').forEach(t => t.classList.remove('active'));
+        thumbEl.classList.add('active');
     }
 
     function renderNotFound(container) {

@@ -293,6 +293,16 @@
         document.getElementById('hamburger').classList.toggle('open');
     }
 
+    // image_url can be a plain URL string or a JSON array of URLs (multi-photo listings)
+    function getThumbUrl(image_url) {
+        if (!image_url) return null;
+        try {
+            const parsed = JSON.parse(image_url);
+            if (Array.isArray(parsed) && parsed.length) return parsed[0];
+        } catch {}
+        return image_url;
+    }
+
     async function loadListings() {
         const { data, error } = await db
             .from('listings')
@@ -317,8 +327,8 @@
         grid.innerHTML = data.map(listing => `
             <a href="item.html?slug=${listing.slug}" class="listing-card">
                 <div class="listing-card-inner">
-                    ${listing.image_url
-                        ? `<img src="${listing.image_url}" alt="${listing.title}" class="listing-img">`
+                    ${getThumbUrl(listing.image_url)
+                        ? `<img src="${getThumbUrl(listing.image_url)}" alt="${listing.title}" class="listing-img">`
                         : `<div class="listing-img-placeholder">
                             <svg width="64" height="64" viewBox="0 0 48 48" fill="none" stroke="#ffffff" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
                                 <rect x="6" y="10" width="36" height="28" rx="1"/>
