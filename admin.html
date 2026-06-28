@@ -877,7 +877,7 @@
         btn.textContent = isEditing ? 'Saving...' : 'Publishing...';
         btn.disabled = true;
         msg.className = 'form-msg';
-        msg.style.display = 'none';
+        msg.style.display = ''; // clear any inline style — let CSS class control visibility
 
         try {
             const urls = await resolvePhotoUrls(btn);
@@ -915,11 +915,15 @@
             }
 
             msg.className = 'form-msg success';
+            msg.style.display = 'block'; // force visible regardless of CSS
             resetForm();
 
         } catch (err) {
-            msg.textContent = 'Error: ' + (err.message || 'Something went wrong.');
+            const errText = err.message || 'Something went wrong.';
+            msg.textContent = '⚠ Error: ' + errText;
             msg.className = 'form-msg error';
+            msg.style.display = 'block'; // force visible regardless of CSS
+            console.error('Listing save error:', err);
         }
 
         btn.textContent = editingListingId ? 'Save Changes' : 'Publish Listing';
