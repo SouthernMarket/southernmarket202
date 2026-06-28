@@ -468,47 +468,67 @@
     const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNsamtpbWlvY3lvZGx5cmx4a2psIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkzODI4NTUsImV4cCI6MjA5NDk1ODg1NX0.oQ6v5iKSzUGY9cNwv1lUfAFJeqiJAwRQnu6R0bsx2Uw';
     const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
+    function getFirstPhoto(image_url) {
+        if (!image_url) return null;
+        try {
+            const parsed = JSON.parse(image_url);
+            if (Array.isArray(parsed) && parsed.length) return parsed[0];
+        } catch {}
+        return image_url;
+    }
+
     async function loadFeatured() {
-        const { data, error } = await supabase
-            .from('listings')
-            .select('id, title, slug, excerpt, price, category, image_url, available, sold')
-            .eq('available', true)
-            .eq('sold', false)
-            .order('published_at', { ascending: false })
-            .limit(4);
-
         const grid = document.getElementById('featured-grid');
+        try {
+            const { data, error } = await supabase
+                .from('listings')
+                .select('id, title, slug, excerpt, price, category, image_url, available, sold')
+                .eq('available', true)
+                .order('published_at', { ascending: false })
+                .limit(4);
 
-        if (error || !data || !data.length) {
-            grid.innerHTML = '<p class="empty-msg">New pieces coming soon — check back shortly.</p>';
-            return;
-        }
+            if (error) {
+                console.error('Featured load error:', error);
+                grid.innerHTML = '<p class="empty-msg">New pieces coming soon — check back shortly.</p>';
+                return;
+            }
 
-        grid.innerHTML = data.map(listing => `
-            <a href="item.html?slug=${listing.slug}" class="listing-card">
-                <div class="listing-card-inner">
-                    ${listing.image_url
-                        ? `<img src="${listing.image_url}" alt="${listing.title}" class="listing-img">`
-                        : `<div class="listing-img-placeholder">
-                            <svg width="56" height="56" viewBox="0 0 48 48" fill="none" stroke="#2B3A5C" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
-                                <rect x="6" y="10" width="36" height="28" rx="1"/>
-                                <circle cx="18" cy="21" r="5"/>
-                                <path d="M6 34 L15 25 L22 32 L30 24 L42 34"/>
-                            </svg>
-                           </div>`
-                    }
-                </div>
-                <div class="listing-info">
-                    <p class="listing-category">${listing.category || 'Vintage'}</p>
-                    <h2 class="listing-title">${listing.title}</h2>
-                    <p class="listing-excerpt">${listing.excerpt || ''}</p>
-                    <div class="listing-footer">
-                        <span class="listing-price">$${parseFloat(listing.price).toLocaleString('en-US', {minimumFractionDigits: 0, maximumFractionDigits: 0})}</span>
-                        <span class="listing-cta">View Details</span>
+            if (!data || !data.length) {
+                grid.innerHTML = '<p class="empty-msg">New pieces coming soon — check back shortly.</p>';
+                return;
+            }
+
+            const thumb = listing => getFirstPhoto(listing.image_url);
+
+            grid.innerHTML = data.map(listing => `
+                <a href="item.html?slug=${listing.slug}" class="listing-card">
+                    <div class="listing-card-inner">
+                        ${thumb(listing)
+                            ? `<img src="${thumb(listing)}" alt="${listing.title}" class="listing-img">`
+                            : `<div class="listing-img-placeholder">
+                                <svg width="56" height="56" viewBox="0 0 48 48" fill="none" stroke="#2B3A5C" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="6" y="10" width="36" height="28" rx="1"/>
+                                    <circle cx="18" cy="21" r="5"/>
+                                    <path d="M6 34 L15 25 L22 32 L30 24 L42 34"/>
+                                </svg>
+                               </div>`
+                        }
                     </div>
-                </div>
-            </a>
-        `).join('');
+                    <div class="listing-info">
+                        <p class="listing-category">${listing.category || 'Vintage'}</p>
+                        <h2 class="listing-title">${listing.title}</h2>
+                        <p class="listing-excerpt">${listing.excerpt || ''}</p>
+                        <div class="listing-footer">
+                            <span class="listing-price">$${parseFloat(listing.price).toLocaleString('en-US', {minimumFractionDigits: 0, maximumFractionDigits: 0})}</span>
+                            <span class="listing-cta">View Details</span>
+                        </div>
+                    </div>
+                </a>
+            `).join('');
+        } catch (err) {
+            console.error('Featured section crashed:', err);
+            grid.innerHTML = '<p class="empty-msg">New pieces coming soon — check back shortly.</p>';
+        }
     }
 
     loadFeatured();
