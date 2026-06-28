@@ -311,6 +311,9 @@
         .photo-thumb-wrap:hover .photo-thumb-set-cover { opacity: 1; }
         .photo-thumb-wrap img:hover + .photo-thumb-set-cover { opacity: 1; }
 
+        .photo-thumb-wrap.dragging { opacity: 0.35; cursor: grabbing; }
+        .photo-thumb-wrap.drag-over { outline: 2px dashed var(--navy); outline-offset: 2px; }
+
         .photo-grid-add {
             display: inline-block;
             background: none;
@@ -746,18 +749,48 @@
         count.textContent = selectedPhotoFiles.length;
 
         thumbs.innerHTML = '';
+        let dragSrcIndex = null;
+
         selectedPhotoFiles.forEach((file, i) => {
             const wrap = document.createElement('div');
             wrap.className = 'photo-thumb-wrap';
-            wrap.title = i === 0 ? 'Cover photo' : 'Click to set as cover';
+            wrap.draggable = true;
+            wrap.dataset.index = i;
+            wrap.title = i === 0 ? 'Cover photo — drag to reorder' : 'Drag to reorder · click to set as cover';
+
+            // ── Drag events ──
+            wrap.addEventListener('dragstart', (ev) => {
+                dragSrcIndex = i;
+                ev.dataTransfer.effectAllowed = 'move';
+                setTimeout(() => wrap.classList.add('dragging'), 0);
+            });
+            wrap.addEventListener('dragend', () => {
+                wrap.classList.remove('dragging');
+                document.querySelectorAll('.photo-thumb-wrap').forEach(w => w.classList.remove('drag-over'));
+            });
+            wrap.addEventListener('dragover', (ev) => {
+                ev.preventDefault();
+                ev.dataTransfer.dropEffect = 'move';
+                document.querySelectorAll('.photo-thumb-wrap').forEach(w => w.classList.remove('drag-over'));
+                if (i !== dragSrcIndex) wrap.classList.add('drag-over');
+            });
+            wrap.addEventListener('drop', (ev) => {
+                ev.preventDefault();
+                if (dragSrcIndex === null || dragSrcIndex === i) return;
+                // Reorder the files array
+                const moved = selectedPhotoFiles.splice(dragSrcIndex, 1)[0];
+                selectedPhotoFiles.splice(i, 0, moved);
+                dragSrcIndex = null;
+                renderPhotoThumbs();
+            });
 
             const reader = new FileReader();
             reader.onload = (e) => {
                 const img = document.createElement('img');
                 img.src = e.target.result;
                 img.alt = file.name;
-                // Click the image (not the × button) to set as cover
-                img.style.cursor = i === 0 ? 'default' : 'pointer';
+                img.style.cursor = 'grab';
+                // Click to set as cover (if not already cover)
                 img.onclick = () => { if (i !== 0) setCover(i); };
 
                 if (i === 0) {
@@ -766,7 +799,6 @@
                     badge.textContent = 'Cover';
                     wrap.appendChild(badge);
                 } else {
-                    // Show a faint "set cover" hint on non-cover thumbs
                     const hint = document.createElement('span');
                     hint.className = 'photo-thumb-set-cover';
                     hint.textContent = 'Set cover';
