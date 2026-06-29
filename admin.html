@@ -1063,7 +1063,7 @@
     }
 
     // ── MANAGE LISTINGS ──────────────────────────────────────
-    let cachedListings = {}; // id → listing object, used by openEdit
+    var cachedListings = {}; // id → listing object, used by openEdit (var = globally accessible from onclick)
 
     function getThumbSrc(image_url) {
         if (!image_url) return null;
