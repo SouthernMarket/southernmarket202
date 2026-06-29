@@ -505,6 +505,54 @@
 
         .empty-table { text-align: center; padding: 48px; color: var(--body); font-size: 14px; }
 
+        /* ── AI GENERATE BUTTON ── */
+        .ai-generate-bar {
+            display: none; /* shown only when photos are loaded */
+            margin-top: 12px;
+            padding: 14px 16px;
+            background: var(--white);
+            border: 1px solid var(--border);
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .ai-generate-bar.visible { display: flex; }
+
+        .ai-generate-btn {
+            background: var(--black);
+            color: var(--white);
+            border: none;
+            padding: 10px 20px;
+            font-family: 'Horizon', sans-serif;
+            font-size: 10px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: opacity 0.2s;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .ai-generate-btn:hover { opacity: 0.8; }
+        .ai-generate-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+        .ai-generate-label {
+            font-size: 12px;
+            color: var(--gray);
+        }
+
+        .ai-generate-label strong { color: var(--black); }
+
+        .ai-generate-status {
+            font-size: 12px;
+            margin-left: auto;
+        }
+
+        .ai-status-loading { color: var(--gray); font-style: italic; }
+        .ai-status-error   { color: #c0392b; }
+        .ai-status-success { color: #2e7d32; }
+
         /* ── MOBILE ── */
         @media (max-width: 600px) {
             .form-row { grid-template-columns: 1fr; }
@@ -569,6 +617,17 @@
                             <button type="button" class="photo-grid-add" onclick="document.getElementById('photo-input').click()">+ Add More Photos</button>
                         </div>
                     </div>
+                </div>
+
+                <!-- AI GENERATE BAR -->
+                <div class="ai-generate-bar" id="ai-generate-bar">
+                    <button type="button" class="ai-generate-btn" id="ai-generate-btn" onclick="generateFromPhoto()">
+                        ✦ Generate from photo
+                    </button>
+                    <span class="ai-generate-label">
+                        Uses the first photo to <strong>auto-fill title, description &amp; price</strong> — you can edit after
+                    </span>
+                    <span class="ai-generate-status" id="ai-generate-status"></span>
                 </div>
 
                 <!-- BASICS -->
@@ -761,16 +820,20 @@
         const thumbs = document.getElementById('photo-thumbs');
         const count  = document.getElementById('photo-count');
 
+        const aiBar = document.getElementById('ai-generate-bar');
+
         if (!formPhotoItems.length) {
             grid.style.display = 'none';
             prompt.style.display = 'block';
             document.getElementById('upload-area').classList.remove('has-photos');
+            aiBar.classList.remove('visible');
             return;
         }
 
         grid.style.display = 'block';
         prompt.style.display = 'none';
         document.getElementById('upload-area').classList.add('has-photos');
+        aiBar.classList.add('visible');
         count.textContent = formPhotoItems.length;
         thumbs.innerHTML = '';
 
@@ -952,6 +1015,10 @@
         document.getElementById('slug-preview-val').textContent = '—';
         document.querySelector('#panel-new .panel-title').textContent = 'Create New Listing';
         document.getElementById('publish-btn').textContent = 'Publish Listing';
+        // Reset AI generate bar
+        document.getElementById('ai-generate-bar').classList.remove('visible');
+        document.getElementById('ai-generate-status').textContent = '';
+        document.getElementById('ai-generate-status').className = 'ai-generate-status';
     }
 
     // ── EDIT LISTING ─────────────────────────────────────────
@@ -1086,6 +1153,101 @@
         if (!confirm(`Delete "${title}"? This cannot be undone.`)) return;
         await db.from('listings').delete().eq('id', id);
         loadManage();
+    }
+
+    // ── AI GENERATE FROM PHOTO ──────────────────────────────────
+    async function generateFromPhoto() {
+        // Need at least one photo
+        const firstPhoto = formPhotoItems[0];
+        if (!firstPhoto) {
+            setAiStatus('error', 'Upload a photo first.');
+            return;
+        }
+
+        const btn    = document.getElementById('ai-generate-btn');
+        const status = document.getElementById('ai-generate-status');
+
+        // Get base64 data and media type from the first photo
+        let imageBase64, mediaType;
+
+        if (firstPhoto.type === 'new') {
+            // New file — preview is already a data URL (data:<type>;base64,<data>)
+            const dataUrl = firstPhoto.preview;
+            const commaIdx = dataUrl.indexOf(',');
+            if (commaIdx === -1) {
+                setAiStatus('error', 'Could not read photo — try a different image.');
+                return;
+            }
+            imageBase64 = dataUrl.substring(commaIdx + 1);
+            // Extract media type from data URL header
+            const header = dataUrl.substring(5, commaIdx); // e.g. "image/jpeg;base64"
+            mediaType = header.split(';')[0];              // e.g. "image/jpeg"
+        } else {
+            // Existing photo (edit mode) — fetch it and convert
+            setAiStatus('loading', 'Fetching photo...');
+            try {
+                const fetchRes = await fetch(firstPhoto.url);
+                const blob = await fetchRes.blob();
+                mediaType = blob.type || 'image/jpeg';
+                const arrayBuffer = await blob.arrayBuffer();
+                const uint8 = new Uint8Array(arrayBuffer);
+                let binary = '';
+                for (let i = 0; i < uint8.length; i++) binary += String.fromCharCode(uint8[i]);
+                imageBase64 = btoa(binary);
+            } catch (fetchErr) {
+                setAiStatus('error', 'Could not load photo — try again.');
+                return;
+            }
+        }
+
+        // Disable button and show loading
+        btn.disabled = true;
+        setAiStatus('loading', 'Analyzing photo...');
+
+        try {
+            const res = await fetch('/api/generate-listing', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ imageBase64, mediaType }),
+            });
+
+            const data = await res.json();
+
+            if (!res.ok || data.error) {
+                setAiStatus('error', data.error || 'Something went wrong — please try again.');
+                return;
+            }
+
+            // Fill in the form fields
+            if (data.title) {
+                document.getElementById('f-title').value = data.title;
+                generateSlug(); // update the URL slug preview
+            }
+            if (data.description) {
+                document.getElementById('f-excerpt').value = data.description;
+                document.getElementById('f-story').value   = data.description;
+            }
+            if (data.suggestedPrice) {
+                document.getElementById('f-price').value = data.suggestedPrice;
+            }
+
+            setAiStatus('success', 'Done! Review and edit the fields below before publishing.');
+
+        } catch (err) {
+            console.error('generateFromPhoto error:', err);
+            setAiStatus('error', 'Connection error — check your internet and try again.');
+        } finally {
+            btn.disabled = false;
+        }
+    }
+
+    function setAiStatus(type, message) {
+        const el = document.getElementById('ai-generate-status');
+        el.className = 'ai-generate-status';
+        if (type === 'loading') el.classList.add('ai-status-loading');
+        if (type === 'error')   el.classList.add('ai-status-error');
+        if (type === 'success') el.classList.add('ai-status-success');
+        el.textContent = message;
     }
 </script>
 
