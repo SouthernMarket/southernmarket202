@@ -79,10 +79,20 @@ Return ONLY valid JSON. No markdown code fences, no explanation, no extra text b
       return res.status(500).json({ error: 'No response from AI — please try again' });
     }
 
+    // Strip markdown code fences if the model wrapped its JSON in them
+    // e.g. ```json\n{...}\n``` or ```\n{...}\n```
+    let cleaned = text.trim();
+    if (cleaned.startsWith('```')) {
+      cleaned = cleaned
+        .replace(/^```(?:json)?\s*/i, '')  // remove opening fence
+        .replace(/```\s*$/, '')            // remove closing fence
+        .trim();
+    }
+
     // Parse the JSON the model returned
     let listing;
     try {
-      listing = JSON.parse(text);
+      listing = JSON.parse(cleaned);
     } catch (parseErr) {
       console.error('Failed to parse AI response as JSON:', text);
       return res.status(500).json({ error: 'AI returned an unexpected format — please try again' });
