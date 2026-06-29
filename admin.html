@@ -807,17 +807,43 @@
     const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNsamtpbWlvY3lvZGx5cmx4a2psIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkzODI4NTUsImV4cCI6MjA5NDk1ODg1NX0.oQ6v5iKSzUGY9cNwv1lUfAFJeqiJAwRQnu6R0bsx2Uw';
     const db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-    // ── SIMPLE PASSWORD AUTH ──────────────────────────────────
-    const ADMIN_PASSWORD = 'southernmarket202!';
+    // ── PASSWORD AUTH (checked server-side) ──────────────────
+    async function login() {
+        const pw  = document.getElementById('pw-input').value;
+        const btn = document.querySelector('.login-btn');
+        const err = document.getElementById('login-error');
 
-    function login() {
-        const pw = document.getElementById('pw-input').value;
-        if (pw === ADMIN_PASSWORD) {
-            document.getElementById('login-screen').style.display = 'none';
-            document.getElementById('admin-shell').style.display = 'block';
-            sessionStorage.setItem('sm202_admin', '1');
-        } else {
-            document.getElementById('login-error').style.display = 'block';
+        if (!pw) return;
+
+        // Show loading state
+        btn.textContent = 'Checking…';
+        btn.disabled = true;
+        err.style.display = 'none';
+
+        try {
+            const res  = await fetch('/api/verify-password', {
+                method:  'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body:    JSON.stringify({ password: pw }),
+            });
+            const data = await res.json();
+
+            if (data.success) {
+                sessionStorage.setItem('sm202_admin', '1');
+                document.getElementById('login-screen').style.display = 'none';
+                document.getElementById('admin-shell').style.display  = 'block';
+            } else {
+                err.textContent    = 'Incorrect password. Try again.';
+                err.style.display  = 'block';
+                btn.textContent    = 'Sign In';
+                btn.disabled       = false;
+                document.getElementById('pw-input').select();
+            }
+        } catch {
+            err.textContent   = 'Connection error — please try again.';
+            err.style.display = 'block';
+            btn.textContent   = 'Sign In';
+            btn.disabled      = false;
         }
     }
 
