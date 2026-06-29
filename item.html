@@ -22,8 +22,7 @@
         .wordmark { display: inline-flex; flex-direction: column; line-height: 1; text-decoration: none; gap: 3px; }
         .wm-top { font-family: 'Horizon', sans-serif; font-size: 22px; color: var(--black); letter-spacing: 0; text-transform: uppercase; line-height: 1; white-space: nowrap; }
         .wm-bot { font-family: 'Horizon', sans-serif; font-size: 13px; color: var(--black); letter-spacing: 5.5px; text-transform: uppercase; line-height: 1; white-space: nowrap; }
-        .wordmark.light .wm-top { font-family: 'Horizon', sans-serif; font-size: 22px; color: var(--black); letter-spacing: 0; text-transform: uppercase; line-height: 1; white-space: nowrap; }
-        .wordmark.light .wm-top, .wordmark.light .wm-bot { font-family: 'Horizon', sans-serif; font-size: 13px; color: var(--black); letter-spacing: 5.5px; text-transform: uppercase; line-height: 1; white-space: nowrap; }
+        .wordmark.light .wm-top, .wordmark.light .wm-bot { color: var(--white); }
 
         /* ── HEADER ── */
         header { background: var(--white); border-bottom: 1px solid var(--border); padding: 0 48px; height: 80px; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; position: sticky; top: 0; z-index: 200; }
@@ -245,7 +244,7 @@
 
         /* ── NOT FOUND ── */
         .not-found { text-align: center; padding: 120px 48px; }
-        .not-found h2 { font-family: 'Dancing Script', cursive; font-size: 56px; font-weight: 700; color: var(--black); margin-bottom: 16px; }
+        .not-found h2 { font-family: 'Horizon', sans-serif; font-size: 48px; font-weight: normal; color: var(--black); margin-bottom: 16px; text-transform: uppercase; letter-spacing: 1px; }
         .not-found p { font-size: 15px; color: var(--gray); margin-bottom: 32px; }
         .not-found a { display: inline-block; background: var(--black); color: var(--white); padding: 14px 28px; font-size: 11px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; text-decoration: none; }
 
@@ -272,7 +271,7 @@
             .breadcrumb { padding: 16px 20px; }
             .item-wrap { padding: 0 20px 64px; }
             .item-specs { grid-template-columns: 1fr; }
-            footer { background: var(--black); border-top: 1px solid rgba(255,255,255,0.1); padding: 48px; display: flex; justify-content: space-between; align-items: center; }
+            footer { flex-direction: column; gap: 24px; text-align: center; padding: 40px 24px; }
         }
     </style>
 </head>
