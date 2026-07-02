@@ -32,6 +32,35 @@ export default async function handler(req, res) {
     'line_items[0][quantity]': '1',
     'success_url': `${baseUrl}/success.html?session_id={CHECKOUT_SESSION_ID}`,
     'cancel_url': `${baseUrl}/item.html?slug=${slug}`,
+
+    // Collect shipping address from the customer
+    'shipping_address_collection[allowed_countries][0]': 'US',
+
+    // Shipping option 0 — Free Local Pickup
+    'shipping_options[0][shipping_rate_data][type]': 'fixed_amount',
+    'shipping_options[0][shipping_rate_data][display_name]': 'Local Pickup (Williamston, SC)',
+    'shipping_options[0][shipping_rate_data][fixed_amount][amount]': '0',
+    'shipping_options[0][shipping_rate_data][fixed_amount][currency]': 'usd',
+
+    // Shipping option 1 — Standard Shipping (5–7 days) $8.99
+    'shipping_options[1][shipping_rate_data][type]': 'fixed_amount',
+    'shipping_options[1][shipping_rate_data][display_name]': 'Standard Shipping (5–7 business days)',
+    'shipping_options[1][shipping_rate_data][fixed_amount][amount]': '899',
+    'shipping_options[1][shipping_rate_data][fixed_amount][currency]': 'usd',
+    'shipping_options[1][shipping_rate_data][delivery_estimate][minimum][unit]': 'business_day',
+    'shipping_options[1][shipping_rate_data][delivery_estimate][minimum][value]': '5',
+    'shipping_options[1][shipping_rate_data][delivery_estimate][maximum][unit]': 'business_day',
+    'shipping_options[1][shipping_rate_data][delivery_estimate][maximum][value]': '7',
+
+    // Shipping option 2 — Priority Mail (2–3 days) $14.99
+    'shipping_options[2][shipping_rate_data][type]': 'fixed_amount',
+    'shipping_options[2][shipping_rate_data][display_name]': 'Priority Mail (2–3 business days)',
+    'shipping_options[2][shipping_rate_data][fixed_amount][amount]': '1499',
+    'shipping_options[2][shipping_rate_data][fixed_amount][currency]': 'usd',
+    'shipping_options[2][shipping_rate_data][delivery_estimate][minimum][unit]': 'business_day',
+    'shipping_options[2][shipping_rate_data][delivery_estimate][minimum][value]': '2',
+    'shipping_options[2][shipping_rate_data][delivery_estimate][maximum][unit]': 'business_day',
+    'shipping_options[2][shipping_rate_data][delivery_estimate][maximum][value]': '3',
   });
 
   try {
