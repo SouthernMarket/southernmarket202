@@ -177,6 +177,38 @@
         .footer-social a:hover { color: var(--white); }
         .footer-social svg { width: 18px; height: 18px; fill: currentColor; }
 
+        /* ── FILTER BAR ── */
+        .filter-bar {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 48px;
+        }
+
+        .filter-btn {
+            font-family: 'Horizon', sans-serif;
+            font-size: 10px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            padding: 10px 22px;
+            border: 1px solid var(--border);
+            background: var(--white);
+            color: var(--gray);
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s, border-color 0.2s;
+        }
+
+        .filter-btn:hover {
+            border-color: var(--black);
+            color: var(--black);
+        }
+
+        .filter-btn.active {
+            background: var(--black);
+            color: var(--white);
+            border-color: var(--black);
+        }
+
         /* ── MOBILE ── */
         @media (max-width: 768px) {
             header { padding: 0 20px; grid-template-columns: 1fr auto; }
@@ -189,6 +221,8 @@
             .shop-header-left h2 { font-size: 28px; letter-spacing: 0; }
             .shop-section { padding: 48px 20px; }
             #listings-grid { grid-template-columns: 1fr; gap: 24px; }
+            .filter-bar { gap: 8px; margin-bottom: 32px; }
+            .filter-btn { padding: 8px 14px; font-size: 9px; letter-spacing: 1.5px; }
             footer { flex-direction: column; gap: 24px; text-align: center; padding: 40px 24px; }
         }
     </style>
@@ -244,6 +278,7 @@
             <p id="item-count"></p>
         </div>
     </div>
+    <div id="filter-bar" class="filter-bar"></div>
     <div id="listings-grid">
         <p style="color:#5a5a5a;font-size:14px;letter-spacing:1px;">Loading...</p>
     </div>
@@ -267,6 +302,9 @@
     const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNsamtpbWlvY3lvZGx5cmx4a2psIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkzODI4NTUsImV4cCI6MjA5NDk1ODg1NX0.oQ6v5iKSzUGY9cNwv1lUfAFJeqiJAwRQnu6R0bsx2Uw';
     const db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
+    var allListings = [];
+    var activeFilter = 'All';
+
     function toggleMenu() {
         document.getElementById('mobile-menu').classList.toggle('open');
         document.getElementById('hamburger').classList.toggle('open');
@@ -282,28 +320,8 @@
         return image_url;
     }
 
-    async function loadListings() {
-        const { data, error } = await db
-            .from('listings')
-            .select('id, title, slug, excerpt, price, category, image_url, available, sold')
-            .order('published_at', { ascending: false });
-
-        const grid = document.getElementById('listings-grid');
-
-        if (error) {
-            grid.innerHTML = '<p class="empty-msg">Unable to load items right now. Please check back soon.</p>';
-            return;
-        }
-
-        if (!data || !data.length) {
-            grid.innerHTML = '<p class="empty-msg">No items yet — check back soon. We\'re working on some great pieces.</p>';
-            return;
-        }
-
-        const available = data.filter(l => l.available && !l.sold).length;
-        document.getElementById('item-count').textContent = `${available} item${available !== 1 ? 's' : ''} available`;
-
-        grid.innerHTML = data.map(listing => `
+    function cardHtml(listing) {
+        return `
             <a href="item.html?slug=${listing.slug}" class="listing-card">
                 <div class="listing-card-inner">
                     ${getThumbUrl(listing.image_url)
@@ -331,7 +349,67 @@
                     </div>
                 </div>
             </a>
-        `).join('');
+        `;
+    }
+
+    function renderGrid(listings) {
+        const grid = document.getElementById('listings-grid');
+        const available = listings.filter(l => l.available && !l.sold).length;
+        document.getElementById('item-count').textContent = `${available} item${available !== 1 ? 's' : ''} available`;
+
+        if (!listings.length) {
+            grid.innerHTML = '<p class="empty-msg">No items in this category yet — check back soon.</p>';
+            return;
+        }
+
+        grid.innerHTML = listings.map(cardHtml).join('');
+    }
+
+    function buildFilterBar(listings) {
+        // Gather unique categories from actual data, sorted alphabetically
+        const cats = [...new Set(listings.map(l => l.category).filter(Boolean))].sort();
+        const bar = document.getElementById('filter-bar');
+
+        // Don't show the filter bar if everything is one category
+        if (cats.length < 2) { bar.style.display = 'none'; return; }
+
+        const buttons = ['All', ...cats].map(cat =>
+            `<button class="filter-btn${cat === activeFilter ? ' active' : ''}" onclick="applyFilter('${cat}')">${cat}</button>`
+        ).join('');
+
+        bar.innerHTML = buttons;
+    }
+
+    function applyFilter(cat) {
+        activeFilter = cat;
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.textContent.trim() === cat);
+        });
+        const filtered = cat === 'All' ? allListings : allListings.filter(l => l.category === cat);
+        renderGrid(filtered);
+    }
+
+    async function loadListings() {
+        const { data, error } = await db
+            .from('listings')
+            .select('id, title, slug, excerpt, price, category, image_url, available, sold')
+            .order('published_at', { ascending: false });
+
+        const grid = document.getElementById('listings-grid');
+
+        if (error) {
+            grid.innerHTML = '<p class="empty-msg">Unable to load items right now. Please check back soon.</p>';
+            return;
+        }
+
+        if (!data || !data.length) {
+            grid.innerHTML = '<p class="empty-msg">No items yet — check back soon. We\'re working on some great pieces.</p>';
+            return;
+        }
+
+        allListings = data;
+        buildFilterBar(data);
+        renderGrid(data);
     }
 
     loadListings();
