@@ -256,6 +256,31 @@
 
         .form-error { color: #c0392b; font-size: 13px; margin-top: 8px; display: none; }
 
+        /* ── BUY NOW (Clothing) ── */
+        .buy-section { }
+
+        .buy-btn {
+            display: block;
+            width: 100%;
+            background: var(--black);
+            color: var(--white);
+            border: none;
+            padding: 18px;
+            font-family: 'Horizon', sans-serif;
+            font-size: 12px;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: opacity 0.2s;
+            margin-bottom: 14px;
+        }
+
+        .buy-btn:hover { opacity: 0.8; }
+        .buy-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+        .buy-note { font-size: 12px; color: var(--gray); line-height: 1.6; text-align: center; }
+        .buy-error { color: #c0392b; font-size: 13px; margin-top: 12px; display: none; }
+
         /* ── NOT FOUND ── */
         .not-found { text-align: center; padding: 120px 48px; }
         .not-found h2 { font-family: 'Horizon', sans-serif; font-size: 48px; font-weight: normal; color: var(--black); margin-bottom: 16px; text-transform: uppercase; letter-spacing: 1px; }
@@ -467,6 +492,14 @@
                                 <h3 style="font-size:18px;font-weight:800;color:#c0392b;margin-bottom:8px;">This item has been sold</h3>
                                 <p style="font-size:14px;color:#666;line-height:1.6;">Check back soon — we're always finding new pieces. <a href="shop.html" style="color:#2B3A5C;font-weight:700;">View current items →</a></p>
                             </div>
+                        ` : data.category === 'Clothing' ? `
+                            <div class="buy-section">
+                                <button class="buy-btn" id="buy-btn" onclick="startCheckout()">
+                                    Buy Now — ${formatPrice(data.price)}
+                                </button>
+                                <p class="buy-note">Secure checkout powered by Stripe. We'll be in touch after your purchase to arrange shipping or pickup.</p>
+                                <p class="buy-error" id="buy-error"></p>
+                            </div>
                         ` : `
                             <div class="interest-section">
                                 <h2 class="interest-title">I'm interested in this</h2>
@@ -609,6 +642,42 @@
         if (e.key === 'ArrowRight') { if (document.getElementById('lightbox').classList.contains('open')) lightboxNav(1); }
         if (e.key === 'ArrowLeft')  { if (document.getElementById('lightbox').classList.contains('open')) lightboxNav(-1); }
     });
+
+    async function startCheckout() {
+        const btn = document.getElementById('buy-btn');
+        const err = document.getElementById('buy-error');
+
+        btn.textContent = 'Processing...';
+        btn.disabled = true;
+        err.style.display = 'none';
+
+        try {
+            const res = await fetch('/api/create-checkout', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    title: currentListing.title,
+                    price: currentListing.price,
+                    slug:  currentListing.slug,
+                }),
+            });
+
+            const data = await res.json();
+
+            if (!res.ok || !data.url) {
+                throw new Error(data.error || 'Could not start checkout');
+            }
+
+            // Redirect to Stripe hosted checkout
+            window.location.href = data.url;
+
+        } catch (e) {
+            err.textContent = e.message || 'Something went wrong — please try again.';
+            err.style.display = 'block';
+            btn.textContent = `Buy Now — ${formatPrice(currentListing.price)}`;
+            btn.disabled = false;
+        }
+    }
 
     function renderNotFound(container) {
         container.innerHTML = `
